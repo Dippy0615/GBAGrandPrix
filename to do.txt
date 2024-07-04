@@ -1,0 +1,11 @@
+-add player's car
+	-player controls
+-add track segments and turns
+-add mud, blocks, finish line, etc.
+-add coins
+-add HUD
+-add the other three levels
+-add shop screen
+-add other cars
+-add title, menu screen, level select screen
+-replace car spritess with original art
