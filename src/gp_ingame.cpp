@@ -10,6 +10,7 @@
 #include "bn_array.h"
 #include "bn_log.h"
 #include "bn_math.h"
+#include "bn_vector.h"
 
 #include "gp_scene.h"
 #include "gp_ingame.h"
@@ -30,8 +31,6 @@ namespace gp
         bn::affine_bg_ptr road = bn::affine_bg_items::bg_road.create_bg(0, 0);
         bg.set_priority(1);
         road.set_priority(0);
-        road.set_pivot_x(0);
-        road.set_pivot_y(0);
         bn::fixed road_angle = 0;
         
         //Setup the cars
@@ -40,20 +39,15 @@ namespace gp
         Player player = Player(car);
 
         //Setup the track        
-        bn::array<TrackSegment, 2> segments;
-
+        bn::vector<TrackSegment, 2> segments;
         for(int i=0; i<2; i++)
         {
-            TrackSegment segment;
-            segment.position = 1000*i;
-            segment.length = 1000;
-            segment.curve = 0;
-            if(i==1) segment.curve = 30;
-            segments[i] = segment;
+            TrackSegment segment = TrackSegment(1000*i, 1000, i==1 ? 30 : 0);
+            segments.push_back(segment);
         }
-
+        
         int current_segment_index = 0;
-        TrackSegment current_segment = segments[current_segment_index];
+        TrackSegment* current_segment = &segments[current_segment_index];
         bn::fixed last_angle = 0;
         int turning = -1;
         bool has_turned = false;
@@ -64,31 +58,30 @@ namespace gp
             Car* player_car = player.get_car();
 
             //Move to the next segment
-            int segment_end = current_segment.position + current_segment.length;
-            if (player_car->distance()>segment_end)
+            if (player_car->distance()>current_segment->end())
             {
                 current_segment_index++;
-                last_angle = current_segment.curve;
+                last_angle = current_segment->curve();
                 has_turned = false;
                 if(current_segment_index>=segments.size()) //Lap
                 {
                     current_segment_index = 0;
                     player_car->set_distance(0);
                 }
-                current_segment = segments[current_segment_index];
+                current_segment = &segments[current_segment_index];
             }
 
-            //Scroll the road & background
+            //Scroll the background
             bn::fixed speed = player_car->speed()/3;
-            bg.set_x(bg.x() + (gp::sign(current_segment.curve) * (speed)));
+            bg.set_x(bg.x() + (gp::sign(current_segment->curve()) * (speed)));
             bg.set_y(bg.y() + (speed));
             
             //Handle the road's angle
-            road_angle = gp::lerp(road_angle, current_segment.curve, 0.1);
+            road_angle = gp::lerp(road_angle, current_segment->curve(), 0.1);
             road.set_rotation_angle(road_angle);
             player_car->set_angle(road_angle);
             
-            if (turning==-1 && !has_turned && (last_angle != current_segment.curve))
+            if (turning==-1 && !has_turned && (last_angle != current_segment->curve()))
             {
                 turning = gp::TRACK_TURN_ADJUST;
                 has_turned = true;

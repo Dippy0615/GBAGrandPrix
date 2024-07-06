@@ -5,7 +5,6 @@
 
 namespace gp
 {
-    /*
     class TrackSegment
     {
         private:
@@ -14,14 +13,10 @@ namespace gp
             int _curve;
         public:
             TrackSegment(int pos, int len, int curve);
+            int position();
+            int length();
+            int end();
             int curve();
-    };
-    */
-    struct TrackSegment 
-    {
-        int position;
-        int length;
-        bn::fixed curve;
     };
 }
 

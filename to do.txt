@@ -7,5 +7,6 @@
 -add the other three levels
 -add shop screen
 -add other cars
+-ad enemy car & enemy car AI
 -add title, menu screen, level select screen
 -replace car spritess with original art
