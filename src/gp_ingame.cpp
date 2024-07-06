@@ -8,6 +8,7 @@
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_items_spr_car.h"
 #include "bn_sprite_items_spr_mud.h"
+#include "bn_sprite_items_spr_finishline.h"
 #include "bn_array.h"
 #include "bn_log.h"
 #include "bn_math.h"
@@ -34,7 +35,7 @@ namespace gp
         bg.set_priority(1);
         road.set_priority(0);
         bn::fixed road_angle = 0;
-        
+
         //Setup the cars
         bn::sprite_ptr car_sprite = bn::sprite_items::spr_car.create_sprite(0,24);
         Car car = Car(car_sprite);
@@ -47,6 +48,13 @@ namespace gp
             TrackSegment segment = TrackSegment(1000*i, 1000, i==1 ? 30 : 0);
             if(i==0)
             {
+                for(int j=0;j<5;j++)
+                {
+                    bn::sprite_ptr finishline_sprite = bn::sprite_items::spr_finishline.create_sprite(-64+(j*32), gp::FINISHLINE_POSITION);
+                    TrackObject finishline_part = TrackObject(gp::OBJ_FINISHLINE, gp::FINISHLINE_POSITION, finishline_sprite);
+                    segment.add_object(finishline_part);
+                }
+
                 bn::sprite_ptr mud_sprite = bn::sprite_items::spr_mud.create_sprite(0, -256);
                 TrackObject mud = TrackObject(gp::OBJ_MUD, 500, mud_sprite);
                 segment.add_object(mud);
