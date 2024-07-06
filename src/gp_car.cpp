@@ -25,6 +25,21 @@ namespace gp
         return _sprite.x();
     }
     
+    void Car::set_angle(bn::fixed angle)
+    {
+        _sprite.set_rotation_angle(angle);
+    }
+
+    void Car::set_distance(bn::fixed dist)
+    {
+        _distance = dist;
+    }
+
+    bn::fixed Car::distance()
+    {
+        return _distance;
+    }
+
     void Car::accelerate(bn::fixed delta)
     {
         _speed += delta;
@@ -44,5 +59,6 @@ namespace gp
     void Car::update()
     {
         if (_speed>gp::CAR_MAX_SPEED) _speed = gp::CAR_MAX_SPEED;
+        _distance += (_speed/5);
     }
 }

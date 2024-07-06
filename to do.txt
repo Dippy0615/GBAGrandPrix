@@ -1,5 +1,5 @@
 -add player's car
-	-player controls
+	-player controls (done)
 -add track segments and turns
 -add mud, blocks, finish line, etc.
 -add coins

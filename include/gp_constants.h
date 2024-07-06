@@ -8,6 +8,7 @@ namespace gp
     constexpr int CAR_MAX_SPEED = 30;
     constexpr bn::fixed CAR_ACCEL = 0.05;
     constexpr bn::fixed CAR_DEACCEL = 0.25;
+    constexpr int TRACK_TURN_ADJUST = 40;
 }
 
 #endif

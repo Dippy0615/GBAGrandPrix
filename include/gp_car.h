@@ -19,6 +19,9 @@ namespace gp
             void accelerate(bn::fixed delta);
             void deccelerate(bn::fixed delta);
             bn::fixed speed();
+            void set_angle(bn::fixed angle);
+            bn::fixed distance();
+            void set_distance(bn::fixed dist);
     };
 }
 

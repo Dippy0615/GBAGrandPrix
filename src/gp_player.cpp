@@ -13,9 +13,9 @@ namespace gp
 
     }
 
-    bn::fixed Player::speed()
+    Car* Player::get_car()
     {
-        return _car.speed();
+        return &_car;
     }
 
     void Player::update()
@@ -39,7 +39,6 @@ namespace gp
         {
             _car.deccelerate(gp::CAR_DEACCEL);
         }
-        BN_LOG("speed: ", _car.speed());
         _car.update();
     }
 }

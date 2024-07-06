@@ -2,6 +2,7 @@
 #define GP_PLAYER_H
 
 #include "bn_fixed.h"
+#include "bn_camera_ptr.h"
 
 #include "gp_car.h"
 
@@ -14,7 +15,7 @@ namespace gp
         public:
             Player(Car car);
             void update();
-            bn::fixed speed();
+            Car* get_car();
     };
 }
 
