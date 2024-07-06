@@ -7,6 +7,7 @@
 #include "bn_regular_bg_items_bg_grass.h"
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_items_spr_car.h"
+#include "bn_sprite_items_spr_mud.h"
 #include "bn_array.h"
 #include "bn_log.h"
 #include "bn_math.h"
@@ -19,6 +20,7 @@
 #include "gp_tracksegment.h"
 #include "gp_utils.h"
 #include "gp_constants.h"
+#include "gp_trackobject.h"
 
 namespace gp
 {
@@ -43,6 +45,12 @@ namespace gp
         for(int i=0; i<2; i++)
         {
             TrackSegment segment = TrackSegment(1000*i, 1000, i==1 ? 30 : 0);
+            if(i==0)
+            {
+                bn::sprite_ptr mud_sprite = bn::sprite_items::spr_mud.create_sprite(0, -256);
+                TrackObject mud = TrackObject(gp::OBJ_MUD, 500, mud_sprite);
+                segment.add_object(mud);
+            }
             segments.push_back(segment);
         }
         
@@ -85,6 +93,15 @@ namespace gp
             {
                 turning = gp::TRACK_TURN_ADJUST;
                 has_turned = true;
+            }
+
+            //Handle track objects
+            bn::vector<TrackObject, 16>* objects = current_segment->get_objects();
+            for(auto it = objects->begin(), end = objects->end(); it != end; )
+            {
+                TrackObject object = *it;
+                object._sprite.set_y(player_car->distance() - object.position());
+                it++;
             }
 
             player.update();

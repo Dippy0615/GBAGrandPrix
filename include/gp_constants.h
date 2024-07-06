@@ -9,6 +9,7 @@ namespace gp
     constexpr bn::fixed CAR_ACCEL = 0.05;
     constexpr bn::fixed CAR_DEACCEL = 0.25;
     constexpr int TRACK_TURN_ADJUST = 40;
+    constexpr int OBJ_MUD = 0;
 }
 
 #endif

@@ -1,4 +1,7 @@
+#include "bn_vector.h"
+
 #include "gp_tracksegment.h"
+#include "gp_trackobject.h"
 
 namespace gp
 {
@@ -25,5 +28,15 @@ namespace gp
     int TrackSegment::end()
     {
         return _position + _length;
+    }
+
+    void TrackSegment::add_object(TrackObject obj)
+    {
+        _objects.push_back(obj);
+    }
+
+    bn::vector<TrackObject, 16>* TrackSegment::get_objects()
+    {
+        return &_objects;
     }
 }
