@@ -1,6 +1,7 @@
 #include "bn_keypad.h"
 #include "bn_fixed.h"
 #include "bn_sprite_ptr.h"
+#include "bn_rect.h"
 
 #include "gp_car.h"
 #include "gp_constants.h"
@@ -13,6 +14,9 @@ namespace gp
         _sprite.set_scale(0.75);
         _distance = 0;
         _speed = 0;
+        _hit = -1;
+        _rect.set_width(32);
+        _rect.set_height(64);
     }
 
     void Car::set_x(bn::fixed x)
@@ -58,7 +62,22 @@ namespace gp
 
     void Car::update()
     {
+        if(_hit>-1) 
+        {
+            _hit--;
+            if (_hit%5==0) _sprite.set_visible(!_sprite.visible());
+        }
+        else _sprite.set_visible(true);
+
         if (_speed>gp::CAR_MAX_SPEED) _speed = gp::CAR_MAX_SPEED;
         _distance += (_speed/5);
+
+        _rect.set_x((int)_sprite.x()+16);
+        _rect.set_y((int)_sprite.y());
+    }
+
+    bn::rect Car::get_rect()
+    {
+        return _rect;
     }
 }

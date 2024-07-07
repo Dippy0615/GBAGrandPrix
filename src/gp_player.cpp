@@ -10,7 +10,7 @@ namespace gp
 {
     Player::Player(Car car) : _car(car)
     {
-
+        _control = true;
     }
 
     Car* Player::get_car()
@@ -20,20 +20,28 @@ namespace gp
 
     void Player::update()
     {
-        
-        if (bn::keypad::held(bn::keypad::key_type::LEFT))
+        Car* car = Player::get_car();
+        _control = car->_hit==-1;
+        if(_control)
         {
-            _car.set_x(_car.x() - 2);
-        }
-        
-        if (bn::keypad::held(bn::keypad::key_type::RIGHT))
-        {
-            _car.set_x(_car.x() + 2);
-        }
-        
-        if (bn::keypad::held(bn::keypad::key_type::A))
-        {
-            _car.accelerate(gp::CAR_ACCEL);
+            if (bn::keypad::held(bn::keypad::key_type::LEFT))
+            {
+                _car.set_x(_car.x() - 2);
+            }
+            
+            if (bn::keypad::held(bn::keypad::key_type::RIGHT))
+            {
+                _car.set_x(_car.x() + 2);
+            }
+            
+            if (bn::keypad::held(bn::keypad::key_type::A))
+            {
+                _car.accelerate(gp::CAR_ACCEL);
+            }
+            else
+            {
+                _car.deccelerate(gp::CAR_DEACCEL);
+            }
         }
         else
         {

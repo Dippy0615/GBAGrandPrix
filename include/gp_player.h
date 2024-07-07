@@ -16,6 +16,7 @@ namespace gp
             Player(Car car);
             void update();
             Car* get_car();
+            bool _control;
     };
 }
 

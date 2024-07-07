@@ -13,6 +13,7 @@
 #include "bn_log.h"
 #include "bn_math.h"
 #include "bn_vector.h"
+#include "bn_rect.h"
 
 #include "gp_scene.h"
 #include "gp_ingame.h"
@@ -109,6 +110,22 @@ namespace gp
             {
                 TrackObject object = *it;
                 object._sprite.set_y(player_car->distance() - object.position());
+                object.update();
+                if(player_car->get_rect().intersects(object.get_rect()))
+                {
+                    switch(object.type())
+                    {
+                        default:
+                            break;
+                        case gp::OBJ_MUDSLICK:
+                            if(player_car->_hit==-1)
+                            {
+                                player_car->_hit = gp::CAR_HIT_TIME;
+                            }
+                            break;
+                    }
+                }
+
                 it++;
             }
 
