@@ -12,6 +12,7 @@ namespace gp
     constexpr int TRACK_TURN_ADJUST = 40;
     constexpr int OBJ_MUDSLICK = 0;
     constexpr int OBJ_FINISHLINE = 1;
+    constexpr int OBJ_ROADBLOCK = 2;
     constexpr int FINISHLINE_POSITION = 128;
 }
 

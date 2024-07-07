@@ -9,6 +9,7 @@
 #include "bn_sprite_items_spr_car.h"
 #include "bn_sprite_items_spr_mudslick.h"
 #include "bn_sprite_items_spr_finishline.h"
+#include "bn_sprite_items_spr_roadblock.h"
 #include "bn_array.h"
 #include "bn_log.h"
 #include "bn_math.h"
@@ -56,8 +57,8 @@ namespace gp
                     segment.add_object(finishline_part);
                 }
 
-                bn::sprite_ptr mud_sprite = bn::sprite_items::spr_mudslick.create_sprite(0, -256);
-                TrackObject mud = TrackObject(gp::OBJ_MUDSLICK, 500, mud_sprite);
+                bn::sprite_ptr mud_sprite = bn::sprite_items::spr_roadblock.create_sprite(0, -256);
+                TrackObject mud = TrackObject(gp::OBJ_ROADBLOCK, 500, mud_sprite);
                 segment.add_object(mud);
             }
             segments.push_back(segment);
@@ -118,6 +119,12 @@ namespace gp
                         default:
                             break;
                         case gp::OBJ_MUDSLICK:
+                            if(player_car->_hit==-1)
+                            {
+                                player_car->_hit = gp::CAR_HIT_TIME;
+                            }
+                            break;
+                        case gp::OBJ_ROADBLOCK:
                             if(player_car->_hit==-1)
                             {
                                 player_car->_hit = gp::CAR_HIT_TIME;

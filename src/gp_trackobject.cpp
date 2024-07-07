@@ -25,6 +25,10 @@ namespace gp
                 _rw = 32;
                 _rh = 32;
                 break;
+            case gp::OBJ_ROADBLOCK:
+                _rw = 32;
+                _rh = 12;
+                break;
         }
         _rect.set_width(_rw);
         _rect.set_height(_rh);
