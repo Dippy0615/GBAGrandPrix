@@ -7,7 +7,7 @@
 #include "bn_regular_bg_items_bg_grass.h"
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_items_spr_car.h"
-#include "bn_sprite_items_spr_mud.h"
+#include "bn_sprite_items_spr_mudslick.h"
 #include "bn_sprite_items_spr_finishline.h"
 #include "bn_array.h"
 #include "bn_log.h"
@@ -55,8 +55,8 @@ namespace gp
                     segment.add_object(finishline_part);
                 }
 
-                bn::sprite_ptr mud_sprite = bn::sprite_items::spr_mud.create_sprite(0, -256);
-                TrackObject mud = TrackObject(gp::OBJ_MUD, 500, mud_sprite);
+                bn::sprite_ptr mud_sprite = bn::sprite_items::spr_mudslick.create_sprite(0, -256);
+                TrackObject mud = TrackObject(gp::OBJ_MUDSLICK, 500, mud_sprite);
                 segment.add_object(mud);
             }
             segments.push_back(segment);
