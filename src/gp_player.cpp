@@ -22,6 +22,9 @@ namespace gp
     {
         Car* car = Player::get_car();
         _control = car->_hit==-1;
+
+        //BN_LOG("player x ", car->x());
+        //BN_LOG("rect top left x ", car->get_rect().top_left().x());
         if(_control)
         {
             if (bn::keypad::held(bn::keypad::key_type::LEFT))

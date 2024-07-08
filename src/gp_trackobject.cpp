@@ -1,5 +1,5 @@
 #include "bn_sprite_ptr.h"
-#include "bn_top_left_rect.h"
+#include "bn_rect.h"
 #include "bn_log.h"
 
 #include "gp_trackobject.h"
@@ -12,29 +12,6 @@ namespace gp
     {
         _sprite.set_bg_priority(0);
         _sprite.set_z_order(1);
-        _rx = 0;
-        _ry = 0;
-        switch(_type)
-        {
-            default:
-                break;
-            case gp::OBJ_MUDSLICK:
-                _ry = 12;
-                _rw = 16;
-                _rh = 16;
-                break;
-            case gp::OBJ_FINISHLINE:
-                _rw = 32;
-                _rh = 32;
-                break;
-            case gp::OBJ_ROADBLOCK:
-                _ry = 20;
-                _rw = 32;
-                _rh = 8;
-                break;
-        }
-        _rect.set_width(_rw);
-        _rect.set_height(_rh);
     }
 
     int TrackObject::type()
@@ -49,12 +26,24 @@ namespace gp
 
     void TrackObject::update()
     {
-        _rect.set_x(((int)_sprite.x()) + _rx);
-        _rect.set_y(((int)_sprite.y()) + _ry);
     }
 
-    bn::top_left_rect TrackObject::get_rect()
+    bn::rect TrackObject::get_rect()
     {
-        return _rect;
+        switch(_type)
+        {
+            default:
+                return bn::rect((int)_sprite.x(), (int)_sprite.y(), 0, 0);
+                break;
+            case gp::OBJ_MUDSLICK:
+                return bn::rect((int)_sprite.x(), (int)_sprite.y(), 16, 16);
+                break;
+            case gp::OBJ_FINISHLINE:
+                return bn::rect((int)_sprite.x(), (int)_sprite.y(), 32, 32);
+                break;
+            case gp::OBJ_ROADBLOCK:
+                return bn::rect((int)_sprite.x(), (int)_sprite.y(), 30, 12);
+                break;
+        }
     }
 }

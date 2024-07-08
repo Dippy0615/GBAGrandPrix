@@ -14,7 +14,7 @@
 #include "bn_log.h"
 #include "bn_math.h"
 #include "bn_vector.h"
-#include "bn_top_left_rect.h"
+#include "bn_rect.h"
 
 #include "gp_scene.h"
 #include "gp_ingame.h"
@@ -57,8 +57,8 @@ namespace gp
                     segment.add_object(finishline_part);
                 }
 
-                bn::sprite_ptr mud_sprite = bn::sprite_items::spr_mudslick.create_sprite(-64, -256);
-                TrackObject mud = TrackObject(gp::OBJ_MUDSLICK, 500, mud_sprite);
+                bn::sprite_ptr mud_sprite = bn::sprite_items::spr_roadblock.create_sprite(-64, -256);
+                TrackObject mud = TrackObject(gp::OBJ_ROADBLOCK, 500, mud_sprite);
                 segment.add_object(mud);
             }
             segments.push_back(segment);
@@ -111,7 +111,6 @@ namespace gp
             {
                 TrackObject object = *it;
                 object._sprite.set_y(player_car->distance() - object.position());
-                object.update();
                 if(player_car->get_rect().intersects(object.get_rect()))
                 {
                     switch(object.type())

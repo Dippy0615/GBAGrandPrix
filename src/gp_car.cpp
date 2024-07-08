@@ -1,7 +1,7 @@
 #include "bn_keypad.h"
 #include "bn_fixed.h"
 #include "bn_sprite_ptr.h"
-#include "bn_top_left_rect.h"
+#include "bn_rect.h"
 
 #include "gp_car.h"
 #include "gp_constants.h"
@@ -17,8 +17,8 @@ namespace gp
         _speed = 0;
         _hit = -1;
         _state = gp::CAR_STATE_NORMAL;
-        _rect.set_width(32);
-        _rect.set_height(48);
+        _rect.set_width(28);
+        _rect.set_height(44);
     }
 
     void Car::set_x(bn::fixed x)
@@ -96,7 +96,7 @@ namespace gp
         _rect.set_y((int)_sprite.y());
     }
 
-    bn::top_left_rect Car::get_rect()
+    bn::rect Car::get_rect()
     {
         return _rect;
     }
