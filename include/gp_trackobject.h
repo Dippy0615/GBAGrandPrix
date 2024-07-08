@@ -2,7 +2,7 @@
 #define GP_TRACKOBJECT_H
 
 #include "bn_sprite_ptr.h"
-#include "bn_rect.h"
+#include "bn_top_left_rect.h"
 
 namespace gp
 {
@@ -11,7 +11,7 @@ namespace gp
         private:
             int _type;
             int _position;
-            bn::rect _rect;
+            bn::top_left_rect _rect;
             int _rx;
             int _ry;
             int _rw;
@@ -22,7 +22,7 @@ namespace gp
             int position();
             void update();
             bn::sprite_ptr _sprite;
-            bn::rect get_rect();
+            bn::top_left_rect get_rect();
     };
 }
 

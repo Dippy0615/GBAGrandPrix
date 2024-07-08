@@ -1,5 +1,6 @@
 #include "bn_sprite_ptr.h"
-#include "bn_rect.h"
+#include "bn_top_left_rect.h"
+#include "bn_log.h"
 
 #include "gp_trackobject.h"
 #include "gp_constants.h"
@@ -18,6 +19,7 @@ namespace gp
             default:
                 break;
             case gp::OBJ_MUDSLICK:
+                _ry = 12;
                 _rw = 16;
                 _rh = 16;
                 break;
@@ -26,8 +28,9 @@ namespace gp
                 _rh = 32;
                 break;
             case gp::OBJ_ROADBLOCK:
+                _ry = 20;
                 _rw = 32;
-                _rh = 12;
+                _rh = 8;
                 break;
         }
         _rect.set_width(_rw);
@@ -46,11 +49,11 @@ namespace gp
 
     void TrackObject::update()
     {
-        _rect.set_x((int)_sprite.x() + _rx);
-        _rect.set_y((int)_sprite.y() + _ry);
+        _rect.set_x(((int)_sprite.x()) + _rx);
+        _rect.set_y(((int)_sprite.y()) + _ry);
     }
 
-    bn::rect TrackObject::get_rect()
+    bn::top_left_rect TrackObject::get_rect()
     {
         return _rect;
     }

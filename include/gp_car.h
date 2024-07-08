@@ -2,7 +2,7 @@
 #define GP_CAR_H
 
 #include "bn_sprite_ptr.h"
-#include "bn_rect.h"
+#include "bn_top_left_rect.h"
 
 namespace gp
 {
@@ -12,7 +12,7 @@ namespace gp
             bn::sprite_ptr _sprite;
             bn::fixed _distance;
             bn::fixed _speed;
-            bn::rect _rect;
+            bn::top_left_rect _rect;
         public:
             Car(bn::sprite_ptr sprite);
             void update();
@@ -25,7 +25,8 @@ namespace gp
             bn::fixed distance();
             void set_distance(bn::fixed dist);
             int _hit;
-            bn::rect get_rect();
+            int _state;
+            bn::top_left_rect get_rect();
     };
 }
 
