@@ -14,6 +14,13 @@ namespace gp
         return b > a ? b : a;
     }
 
+    bn::fixed angle_wrap(bn::fixed angle)
+    {
+        if (angle<0) angle+=360;
+        if (angle>360) angle-=360;
+        return angle;
+    }
+
     bool approx(bn::fixed a, bn::fixed min, bn::fixed max)
     {
         return a >= min && a <= max;

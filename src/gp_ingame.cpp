@@ -79,8 +79,9 @@ namespace gp
             
             //Handle the road's angle
             road_angle = gp::lerp(road_angle, current_segment->curve(), 0.1);
-            road.set_rotation_angle(road_angle);
-            player_car->set_angle(road_angle);
+            bn::fixed true_angle = gp::angle_wrap(road_angle);
+            road.set_rotation_angle(true_angle);
+            player_car->set_angle(true_angle);
             
             if (turning==-1 && !has_turned && (last_angle != current_segment->curve()))
             {
