@@ -24,12 +24,13 @@
 #include "gp_utils.h"
 #include "gp_constants.h"
 #include "gp_trackobject.h"
+#include "gp_tracks.h"
 
 namespace gp
 {
     Ingame::Ingame(){}
 
-    Scene Ingame::execute()
+    Scene Ingame::execute(int level)
     {
         //Setup the road & background
         bn::regular_bg_ptr bg = bn::regular_bg_items::bg_grass.create_bg(0, 0);
@@ -44,25 +45,7 @@ namespace gp
         Player player = Player(car);
 
         //Setup the track        
-        bn::vector<TrackSegment, 2> segments;
-        for(int i=0; i<2; i++)
-        {
-            TrackSegment segment = TrackSegment(1000*i, 1000, i==1 ? 30 : 0);
-            if(i==0)
-            {
-                for(int j=0;j<5;j++)
-                {
-                    bn::sprite_ptr finishline_sprite = bn::sprite_items::spr_finishline.create_sprite(-64+(j*32), gp::FINISHLINE_POSITION);
-                    TrackObject finishline_part = TrackObject(gp::OBJ_FINISHLINE, gp::FINISHLINE_POSITION, finishline_sprite);
-                    segment.add_object(finishline_part);
-                }
-
-                bn::sprite_ptr mud_sprite = bn::sprite_items::spr_roadblock.create_sprite(-64, -256);
-                TrackObject mud = TrackObject(gp::OBJ_ROADBLOCK, 500, mud_sprite);
-                segment.add_object(mud);
-            }
-            segments.push_back(segment);
-        }
+        bn::vector<TrackSegment, 32> segments =  gp::get_track(level);
         
         int current_segment_index = 0;
         TrackSegment* current_segment = &segments[current_segment_index];

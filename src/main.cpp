@@ -9,13 +9,15 @@ int main()
 
     gp::Scene scene = gp::Scene::Ingame;
 
+    int current_track = 0;
+
     while(true)
     {
         bn::core::update();
         if (scene == gp::Scene::Ingame)
         {
             gp::Ingame ingame = gp::Ingame();
-            scene = ingame.execute();
+            scene = ingame.execute(current_track);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace gp
         private:
         public:
             Ingame();
-            gp::Scene execute();
+            gp::Scene execute(int level);
     };
 }
 
