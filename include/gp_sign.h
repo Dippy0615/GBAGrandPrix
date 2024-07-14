@@ -9,9 +9,11 @@ namespace gp
     {
         private:
             int _type;
+            int _flash_counter;
         public:
             bn::sprite_ptr _sprite;
             Sign(bn::sprite_ptr sprite);
+            void flash();
     };
 }
 

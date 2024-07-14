@@ -55,6 +55,11 @@ namespace gp
         //Setup the objects
         bn::vector<TrackObject, 16>* objects = current_segment->get_objects();
         
+        //Setup the signs
+        bn::array<bool, 16> signs;
+        signs.fill(false);
+        bn::vector<Sign, 16> signs_obj;
+
         while(true)
         {
             //Move to the next segment
@@ -68,6 +73,10 @@ namespace gp
                 }
                 current_segment = &segments[current_segment_index];
                 objects = current_segment->get_objects();
+
+                //Reset signs stuff
+                signs.fill(false);
+                signs_obj.clear();
             }
 
             //Scroll the background
@@ -82,16 +91,50 @@ namespace gp
             player_car->set_angle(true_angle);
 
             //Handle track objects
+            int index = 0;
+            int type = 0;
             for(auto it = objects->begin(), end = objects->end(); it != end; )
             {
                 TrackObject object = *it;
+                type = object.type();
                 bn::fixed ypos = player_car->distance() - object.position();
                 object._sprite.set_y(ypos);
-                
+                //Handle sign
+                if(!signs[index])
+                {
+                    signs[index] = true;
+                    bn::sprite_ptr sign_sprite = bn::sprite_items::spr_warningsign.create_sprite(object._sprite.x(), -64);
+                    sign_sprite.set_scale(0.75);
+                    if(signs_obj.size()<16)
+                    {
+                        sign_sprite.set_visible(false);
+                        signs_obj.push_back(Sign(sign_sprite));
+                    }
+                }
+                else
+                {
+                    if(type==gp::OBJ_FINISHLINE)
+                    {
+                        signs_obj[index]._sprite.set_visible(false);
+                    }
+                    else
+                    {
+                        if(ypos<-400 || ypos>-100)
+                        {
+                            signs_obj[index]._sprite.set_visible(false);
+                        }
+                        else if (ypos>-400)
+                        {
+                            signs_obj[index].flash();
+                        }
+                    }
+                    
+                }
+
                 //Collision
                 if(player_car->get_rect().intersects(object.get_rect()))
                 {
-                    switch(object.type())
+                    switch(type)
                     {
                         default:
                             break;
@@ -113,6 +156,7 @@ namespace gp
                 }
 
                 it++;
+                index++;
             }
 
             player.update();

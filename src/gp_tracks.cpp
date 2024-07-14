@@ -37,8 +37,8 @@ namespace gp
                 segments.push_back(segment2);
 
                 TrackSegment segment3 = TrackSegment(2000, 2000, 0);
-                TrackObject mud = TrackObject(gp::OBJ_MUDSLICK, 2400, bn::sprite_items::spr_mudslick.create_sprite(28, 2400));
-                TrackObject block2 = TrackObject(gp::OBJ_ROADBLOCK, 3100, bn::sprite_items::spr_roadblock.create_sprite(-64, 3100));
+                TrackObject mud = TrackObject(gp::OBJ_MUDSLICK, 2400, bn::sprite_items::spr_mudslick.create_sprite(0, 2400));
+                TrackObject block2 = TrackObject(gp::OBJ_ROADBLOCK, 3100, bn::sprite_items::spr_roadblock.create_sprite(-48, 3100));
                 TrackObject mud2 = TrackObject(gp::OBJ_MUDSLICK, 3650, bn::sprite_items::spr_mudslick.create_sprite(32, 3650));
                 
                 segment3.add_object(mud);
@@ -50,7 +50,7 @@ namespace gp
                 segments.push_back(segment4);
 
                 TrackSegment segment5 = TrackSegment(5000, 1000, 0);
-                TrackObject mud3 = TrackObject(gp::OBJ_MUDSLICK, 5250, bn::sprite_items::spr_mudslick.create_sprite(32, 5250));
+                TrackObject mud3 = TrackObject(gp::OBJ_MUDSLICK, 5550, bn::sprite_items::spr_mudslick.create_sprite(0, 5250));
                 
                 segment5.add_object(mud3);
                 segments.push_back(segment5);
@@ -59,7 +59,7 @@ namespace gp
                 segments.push_back(segment6);
 
                 TrackSegment segment7 = TrackSegment(7000, 1000, 0);
-                TrackObject block3 = TrackObject(gp::OBJ_ROADBLOCK, 7600, bn::sprite_items::spr_roadblock.create_sprite(64, 7600));
+                TrackObject block3 = TrackObject(gp::OBJ_ROADBLOCK, 7600, bn::sprite_items::spr_roadblock.create_sprite(24, 7600));
 
                 segment7.add_object(block3);
                 segments.push_back(segment7);
