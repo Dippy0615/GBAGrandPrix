@@ -10,6 +10,7 @@
 #include "bn_sprite_items_spr_mudslick.h"
 #include "bn_sprite_items_spr_finishline.h"
 #include "bn_sprite_items_spr_roadblock.h"
+#include "bn_sprite_items_spr_warningsign.h"
 #include "bn_array.h"
 #include "bn_log.h"
 #include "bn_math.h"
@@ -43,33 +44,30 @@ namespace gp
         bn::sprite_ptr car_sprite = bn::sprite_items::spr_car.create_sprite(0,24);
         Car car = Car(car_sprite);
         Player player = Player(car);
+        Car* player_car = player.get_car();
 
         //Setup the track        
-        bn::vector<TrackSegment, 32> segments =  gp::get_track(level);
+        bn::vector<TrackSegment, 16> segments =  gp::get_track(level);
         
         int current_segment_index = 0;
         TrackSegment* current_segment = &segments[current_segment_index];
-        bn::fixed last_angle = 0;
-        int turning = -1;
-        bool has_turned = false;
-
+        
+        //Setup the objects
+        bn::vector<TrackObject, 16>* objects = current_segment->get_objects();
+        
         while(true)
         {
-            if(turning>-1) turning--;
-            Car* player_car = player.get_car();
-
             //Move to the next segment
             if (player_car->distance()>current_segment->end())
             {
                 current_segment_index++;
-                last_angle = current_segment->curve();
-                has_turned = false;
                 if(current_segment_index>=segments.size()) //Lap
                 {
                     current_segment_index = 0;
                     player_car->set_distance(0);
                 }
                 current_segment = &segments[current_segment_index];
+                objects = current_segment->get_objects();
             }
 
             //Scroll the background
@@ -82,19 +80,15 @@ namespace gp
             bn::fixed true_angle = gp::angle_wrap(road_angle);
             road.set_rotation_angle(true_angle);
             player_car->set_angle(true_angle);
-            
-            if (turning==-1 && !has_turned && (last_angle != current_segment->curve()))
-            {
-                turning = gp::TRACK_TURN_ADJUST;
-                has_turned = true;
-            }
 
             //Handle track objects
-            bn::vector<TrackObject, 16>* objects = current_segment->get_objects();
             for(auto it = objects->begin(), end = objects->end(); it != end; )
             {
                 TrackObject object = *it;
-                object._sprite.set_y(player_car->distance() - object.position());
+                bn::fixed ypos = player_car->distance() - object.position();
+                object._sprite.set_y(ypos);
+                
+                //Collision
                 if(player_car->get_rect().intersects(object.get_rect()))
                 {
                     switch(object.type())

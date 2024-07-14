@@ -9,7 +9,7 @@
 namespace gp
 {
     void make_finishline(TrackSegment* segment);
-    bn::vector<TrackSegment, 32> get_track(int level);
+    bn::vector<TrackSegment, 16> get_track(int level);
 }
 
 #endif

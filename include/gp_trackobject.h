@@ -3,6 +3,9 @@
 
 #include "bn_sprite_ptr.h"
 #include "bn_rect.h"
+#include "bn_fixed.h"
+
+#include "gp_sign.h"
 
 namespace gp
 {
@@ -19,7 +22,6 @@ namespace gp
             TrackObject(int type, int position, bn::sprite_ptr sprite);
             int type();
             int position();
-            void update();
             bn::sprite_ptr _sprite;
             bn::rect get_rect();
     };

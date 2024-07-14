@@ -21,9 +21,9 @@ namespace gp
         }
     }
 
-    bn::vector<TrackSegment, 32> get_track(int level)
+    bn::vector<TrackSegment, 16> get_track(int level)
     {
-        bn::vector<TrackSegment, 32> segments;
+        bn::vector<TrackSegment, 16> segments;
         switch(level)
         {
             case 0: default:
