@@ -180,14 +180,14 @@ namespace gp
                         default:
                             break;
                         case gp::OBJ_MUDSLICK:
-                            if(player_car->_state==gp::CAR_STATE_NORMAL)
+                            if(player_car->_state==gp::CAR_STATE_NORMAL && player_car->_inv==-1)
                             {
                                 player_car->_hit = gp::CAR_HIT_TIME;
                                 player_car->_state = gp::CAR_STATE_HIT;
                             }
                             break;
                         case gp::OBJ_ROADBLOCK:
-                            if(player_car->_state==gp::CAR_STATE_NORMAL)
+                            if(player_car->_state==gp::CAR_STATE_NORMAL && player_car->_inv==-1)
                             {
                                 player_car->_hit = gp::CAR_HIT_TIME;
                                 player_car->_state = gp::CAR_STATE_HIT2;
@@ -225,6 +225,8 @@ namespace gp
             }
 
             player.update();
+            if(road_angle<-5) player_car->set_x(player_car->x() + 0.75);
+            if(road_angle>5) player_car->set_x(player_car->x() - 0.75);
             
             //----HUD stuff----
 

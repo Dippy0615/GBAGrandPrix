@@ -3,7 +3,7 @@
 -add track segments and turns
 -add mud, blocks, finish line, (done)
 -add coins (done, partly (needs global coin counter))
--add HUD
+-add HUD (done)
 -add the other three levels
 -add particles
 -add shop screen

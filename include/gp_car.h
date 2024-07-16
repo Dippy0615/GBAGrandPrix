@@ -13,7 +13,6 @@ namespace gp
             bn::fixed _distance;
             bn::fixed _speed;
             bn::rect _rect;
-            int _inv;
         public:
             Car(bn::sprite_ptr sprite);
             void update();
@@ -29,6 +28,7 @@ namespace gp
             int _state;
             bn::rect get_rect();
             void flash(int time);
+            int _inv;
     };
 }
 
