@@ -18,12 +18,14 @@ namespace gp
             int _ry;
             int _rw;
             int _rh;
+            bn::fixed _coin_frame;
         public:
             TrackObject(int type, int position, bn::sprite_ptr sprite);
             int type();
             int position();
             bn::sprite_ptr _sprite;
             bn::rect get_rect();
+            void coin_animate(int frame);
     };
 }
 

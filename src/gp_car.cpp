@@ -19,6 +19,7 @@ namespace gp
         _state = gp::CAR_STATE_NORMAL;
         _rect.set_width(28);
         _rect.set_height(44);
+        _inv = -1;
     }
 
     void Car::set_x(bn::fixed x)
@@ -62,18 +63,30 @@ namespace gp
         return _speed;
     }
 
+    void Car::flash(int time)
+    {
+        if(time%5==0) _sprite.set_visible(!_sprite.visible());
+    }
+
     void Car::update()
     {
         if(_hit>-1) 
         {
             _hit--;
-            if (_hit%5==0) _sprite.set_visible(!_sprite.visible());
         }
         else
         {
-            _sprite.set_visible(true);
+            if(_state!=gp::CAR_STATE_NORMAL)
+            {
+                _inv = 100;
+            }
             _state = gp::CAR_STATE_NORMAL;
         }
+
+        if(_inv>-1) _inv--;
+        if(_hit>-1) flash(_hit);
+        if(_inv>-1) flash(_inv);
+        if(_hit==-1 && _inv==-1) _sprite.set_visible(true);
 
         if(_state==gp::CAR_STATE_NORMAL)
         {

@@ -16,6 +16,7 @@ namespace gp
     constexpr int OBJ_MUDSLICK = 0;
     constexpr int OBJ_FINISHLINE = 1;
     constexpr int OBJ_ROADBLOCK = 2;
+    constexpr int OBJ_COIN = 3;
     constexpr int FINISHLINE_POSITION = 128;
     constexpr int SIGN_WARNING = 0;
 }

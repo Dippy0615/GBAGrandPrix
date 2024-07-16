@@ -11,6 +11,8 @@
 #include "bn_sprite_items_spr_finishline.h"
 #include "bn_sprite_items_spr_roadblock.h"
 #include "bn_sprite_items_spr_warningsign.h"
+#include "bn_sprite_items_spr_coin.h"
+#include "bn_sprite_animate_actions.h"
 #include "bn_array.h"
 #include "bn_log.h"
 #include "bn_math.h"
@@ -60,8 +62,12 @@ namespace gp
         signs.fill(false);
         bn::vector<Sign, 16> signs_obj;
 
+        int time = 0;
+
         while(true)
         {
+            time++;
+
             //Move to the next segment
             if (player_car->distance()>current_segment->end())
             {
@@ -113,24 +119,27 @@ namespace gp
                 }
                 else
                 {
-                    if(type==gp::OBJ_FINISHLINE)
+                    if(type==gp::OBJ_FINISHLINE || type==gp::OBJ_COIN)
                     {
                         signs_obj[index]._sprite.set_visible(false);
                     }
                     else
                     {
-                        if(ypos<-400 || ypos>-100)
+                        if(ypos<-350 || ypos>-100)
                         {
                             signs_obj[index]._sprite.set_visible(false);
                         }
-                        else if (ypos>-400)
+                        else if (ypos>-350)
                         {
                             signs_obj[index].flash();
                         }
                     }
                     
                 }
-
+                
+                //Coin animation
+                object.coin_animate(time / 2);
+                
                 //Collision
                 if(player_car->get_rect().intersects(object.get_rect()))
                 {
@@ -150,6 +159,30 @@ namespace gp
                             {
                                 player_car->_hit = gp::CAR_HIT_TIME;
                                 player_car->_state = gp::CAR_STATE_HIT2;
+                            }
+                            break;
+                        case gp::OBJ_COIN:
+                            it = objects->erase(it);
+                            end = objects->end();
+
+                            signs[index] = false;
+                            
+                            auto s_it = signs_obj.begin();
+                            auto s_end = signs_obj.end();
+                            int s_index = 0;
+                            while(s_it != s_end)
+                            {
+                                if(s_index==index)
+                                {
+                                    s_it = signs_obj.erase(s_it);
+                                    s_end = signs_obj.end();
+                                    break;
+                                }
+                                else
+                                {
+                                    s_it++;
+                                    s_index++;
+                                }
                             }
                             break;
                     }
