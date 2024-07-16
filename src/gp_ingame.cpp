@@ -86,7 +86,14 @@ namespace gp
         bn::sprite_ptr plr_icon = bn::sprite_items::spr_plr_icon.create_sprite(gp::BAR_X,gp::PLR_ICON_Y);
         plr_icon.set_bg_priority(0);
 
+        //Setup the lap counter
+        bn::sprite_text_generator lap_counter(common::variable_8x16_sprite_font);
+        lap_counter.set_center_alignment();
+        lap_counter.set_bg_priority(0);
+        bn::vector<bn::sprite_ptr, 32> lap_counter_sprites;
+
         int time = 0;
+        int lap = 0;
 
         while(true)
         {
@@ -98,6 +105,7 @@ namespace gp
                 current_segment_index++;
                 if(current_segment_index>=segments.size()) //Lap
                 {
+                    if(lap<3) lap++;
                     current_segment_index = 0;
                     player_car->set_distance(0);
                 }
@@ -162,7 +170,7 @@ namespace gp
                 }
                 
                 //Coin animation
-                object.coin_animate(time / 2);
+                object.coin_animate(time / 3);
                 
                 //Collision
                 if(player_car->get_rect().intersects(object.get_rect()))
@@ -229,6 +237,12 @@ namespace gp
             //Player icon
             bn::fixed icony = (player_car->distance() / track_length) * (16 * (bar.max_size()-1));
             plr_icon.set_y(gp::PLR_ICON_Y-icony);
+
+            //Lap counter
+            lap_counter_sprites.clear();
+            bn::string<16> lap_text;
+            lap_text = bn::to_string<3>(lap+1) + "/3";
+            lap_counter.generate(88, 70, lap_text, lap_counter_sprites);
 
             bn::core::update();
         }

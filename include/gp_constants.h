@@ -22,6 +22,7 @@ namespace gp
     constexpr int BAR_X = 106;
     constexpr int BAR_Y = -24;
     constexpr int PLR_ICON_Y = 25;
+    constexpr int MAX_LAPS = 3;
 }
 
 #endif
