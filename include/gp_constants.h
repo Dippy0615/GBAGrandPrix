@@ -19,6 +19,9 @@ namespace gp
     constexpr int OBJ_COIN = 3;
     constexpr int FINISHLINE_POSITION = 128;
     constexpr int SIGN_WARNING = 0;
+    constexpr int BAR_X = 106;
+    constexpr int BAR_Y = -24;
+    constexpr int PLR_ICON_Y = 25;
 }
 
 #endif

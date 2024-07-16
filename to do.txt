@@ -1,12 +1,14 @@
 -add player's car
 	-player controls (done)
 -add track segments and turns
--add mud, blocks, finish line, etc.
--add coins
+-add mud, blocks, finish line, (done)
+-add coins (done, partly (needs global coin counter))
 -add HUD
 -add the other three levels
+-add particles
 -add shop screen
 -add other cars
--ad enemy car & enemy car AI
+-add enemy car & enemy car AI
+-add sound & music 
 -add title, menu screen, level select screen
 -replace car spritess with original art

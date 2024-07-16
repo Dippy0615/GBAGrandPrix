@@ -12,12 +12,18 @@
 #include "bn_sprite_items_spr_roadblock.h"
 #include "bn_sprite_items_spr_warningsign.h"
 #include "bn_sprite_items_spr_coin.h"
+#include "bn_sprite_items_spr_bar_mid.h"
+#include "bn_sprite_items_spr_plr_icon.h"
 #include "bn_sprite_animate_actions.h"
 #include "bn_array.h"
 #include "bn_log.h"
 #include "bn_math.h"
 #include "bn_vector.h"
 #include "bn_rect.h"
+#include "bn_sprite_text_generator.h"
+#include "bn_string.h"
+
+#include "common_variable_8x16_sprite_font.h"
 
 #include "gp_scene.h"
 #include "gp_ingame.h"
@@ -50,7 +56,8 @@ namespace gp
 
         //Setup the track        
         bn::vector<TrackSegment, 16> segments =  gp::get_track(level);
-        
+        int track_length = segments[segments.size()-1].end();
+
         int current_segment_index = 0;
         TrackSegment* current_segment = &segments[current_segment_index];
         
@@ -61,6 +68,23 @@ namespace gp
         bn::array<bool, 16> signs;
         signs.fill(false);
         bn::vector<Sign, 16> signs_obj;
+
+        //Setup the text
+        bn::sprite_text_generator text_mph(common::variable_8x16_sprite_font);
+        text_mph.set_center_alignment();
+        text_mph.set_bg_priority(0);
+        bn::vector<bn::sprite_ptr, 32> text_mph_sprites;
+
+        //Setup the progress bar
+        bn::vector<bn::sprite_ptr, 4> bar;
+        for(int i=0;i<bar.max_size();i++)
+        {
+            bn::sprite_ptr test = bn::sprite_items::spr_bar_mid.create_sprite(gp::BAR_X,gp::BAR_Y+(i*16));
+            test.set_bg_priority(0);
+            bar.push_back(test);
+        }
+        bn::sprite_ptr plr_icon = bn::sprite_items::spr_plr_icon.create_sprite(gp::BAR_X,gp::PLR_ICON_Y);
+        plr_icon.set_bg_priority(0);
 
         int time = 0;
 
@@ -194,6 +218,18 @@ namespace gp
 
             player.update();
             
+            //----HUD stuff----
+
+            //MPH text
+            text_mph_sprites.clear();
+            bn::string<16> text;
+            text = "MPH " + bn::to_string<16>((int)player_car->speed() * 7);
+            text_mph.generate(-88, 70, text, text_mph_sprites);
+
+            //Player icon
+            bn::fixed icony = (player_car->distance() / track_length) * (16 * (bar.max_size()-1));
+            plr_icon.set_y(gp::PLR_ICON_Y-icony);
+
             bn::core::update();
         }
     }

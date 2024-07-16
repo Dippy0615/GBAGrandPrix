@@ -39,7 +39,7 @@ namespace gp
 
                 TrackSegment segment3 = TrackSegment(2000, 2000, 0);
                 TrackObject mud = TrackObject(gp::OBJ_MUDSLICK, 2400, bn::sprite_items::spr_mudslick.create_sprite(0, 2400));
-                TrackObject coin = TrackObject(gp::OBJ_COIN, 2850, bn::sprite_items::spr_coin.create_sprite(-32, 2400));
+                TrackObject coin = TrackObject(gp::OBJ_COIN, 2850, bn::sprite_items::spr_coin.create_sprite(-48, 2400));
                 TrackObject block2 = TrackObject(gp::OBJ_ROADBLOCK, 3100, bn::sprite_items::spr_roadblock.create_sprite(-48, 3100));
                 TrackObject mud2 = TrackObject(gp::OBJ_MUDSLICK, 3650, bn::sprite_items::spr_mudslick.create_sprite(32, 3650));
                 
