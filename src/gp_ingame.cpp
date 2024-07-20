@@ -5,6 +5,7 @@
 #include "bn_affine_bg_items_bg_road.h"
 #include "bn_regular_bg_ptr.h"
 #include "bn_regular_bg_items_bg_grass.h"
+#include "bn_regular_bg_items_bg_jungle.h"
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_items_spr_car.h"
 #include "bn_sprite_items_spr_mudslick.h"
@@ -43,6 +44,17 @@ namespace gp
     {
         //Setup the road & background
         bn::regular_bg_ptr bg = bn::regular_bg_items::bg_grass.create_bg(0, 0);
+        if(level>0)
+        {
+            switch(level)
+            {
+                default:
+                    break;
+                case 1: 
+                    bg.set_item(bn::regular_bg_items::bg_jungle);
+                    break;
+            }
+        }
         bn::affine_bg_ptr road = bn::affine_bg_items::bg_road.create_bg(0, 0);
         bg.set_priority(1);
         road.set_priority(0);
@@ -105,7 +117,7 @@ namespace gp
                 current_segment_index++;
                 if(current_segment_index>=segments.size()) //Lap
                 {
-                    if(lap<3) lap++;
+                    if(lap<2) lap++;
                     current_segment_index = 0;
                     player_car->set_distance(0);
                 }
@@ -170,7 +182,7 @@ namespace gp
                 }
                 
                 //Coin animation
-                object.coin_animate(time / 3);
+                object.coin_animate(time / 4);
                 
                 //Collision
                 if(player_car->get_rect().intersects(object.get_rect()))

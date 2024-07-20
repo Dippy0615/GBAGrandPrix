@@ -5,6 +5,13 @@
 -add coins (done, partly (needs global coin counter))
 -add HUD (done)
 -add the other three levels
+	-add jungle BG (done)
+	-add jungle level
+	-add sky BG
+	-add sky level
+	-add space BG
+	-add space level
+-improve grass BG
 -add particles
 -add shop screen
 -add other cars
