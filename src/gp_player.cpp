@@ -39,7 +39,7 @@ namespace gp
             
             if (bn::keypad::held(bn::keypad::key_type::A))
             {
-                _car.accelerate(gp::CAR_ACCEL);
+                _car.accelerate(car->_mud ? gp::CAR_ACCEL_MUD : gp::CAR_ACCEL);
             }
             else
             {

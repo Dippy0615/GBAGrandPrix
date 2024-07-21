@@ -5,6 +5,7 @@
 #include "bn_vector.h"
 
 #include "gp_trackobject.h"
+#include "gp_constants.h"
 
 namespace gp
 {
@@ -14,7 +15,7 @@ namespace gp
             int _position;
             int _length;
             int _curve;
-            bn::vector<TrackObject, 16> _objects;
+            bn::vector<TrackObject, gp::SEGMENT_OBJ_MAX> _objects;
         public:
             TrackSegment(int pos, int len, int curve);
             int position();
@@ -22,7 +23,7 @@ namespace gp
             int end();
             int curve();
             void add_object(TrackObject obj);
-            bn::vector<TrackObject, 16>* get_objects();
+            bn::vector<TrackObject, gp::SEGMENT_OBJ_MAX>* get_objects();
     };
 }
 

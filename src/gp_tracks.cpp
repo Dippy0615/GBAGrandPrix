@@ -2,6 +2,8 @@
 #include "bn_sprite_items_spr_finishline.h"
 #include "bn_sprite_items_spr_roadblock.h"
 #include "bn_sprite_items_spr_coin.h"
+#include "bn_sprite_items_spr_mud.h"
+#include "bn_sprite_items_spr_mud_bottom.h"
 #include "bn_sprite_ptr.h"
 #include "bn_vector.h"
 
@@ -22,6 +24,17 @@ namespace gp
         }
     }
 
+    void make_mud(TrackSegment* segment, int x, int dist, int length)
+    {
+        for(int i=0; i<length; i++)
+        {
+            bn::sprite_ptr mud_sprite = bn::sprite_items::spr_mud.create_sprite(x, dist);
+            if(i==0) mud_sprite.set_item(bn::sprite_items::spr_mud_bottom);
+            TrackObject mud = TrackObject(i==0 ? gp::OBJ_MUD_BOTTOM : gp::OBJ_MUD, dist+(i*32), mud_sprite);
+            segment->add_object(mud);
+        }
+    }
+
     bn::vector<TrackSegment, 16> get_track(int level)
     {
         bn::vector<TrackSegment, 16> segments;
@@ -31,7 +44,6 @@ namespace gp
                 TrackSegment segment1 = TrackSegment(0, 1000, 0);
                 make_finishline(&segment1);
                 TrackObject block = TrackObject(gp::OBJ_ROADBLOCK, 500, bn::sprite_items::spr_roadblock.create_sprite(64, 500));
-                segment1.add_object(block);
                 segments.push_back(segment1);
                 
                 TrackSegment segment2 = TrackSegment(1000, 1000, -30);
@@ -39,9 +51,9 @@ namespace gp
 
                 TrackSegment segment3 = TrackSegment(2000, 2000, 0);
                 TrackObject mud = TrackObject(gp::OBJ_MUDSLICK, 2400, bn::sprite_items::spr_mudslick.create_sprite(0, 2400));
-                TrackObject coin = TrackObject(gp::OBJ_COIN, 2850, bn::sprite_items::spr_coin.create_sprite(-48, 2400));
+                TrackObject coin = TrackObject(gp::OBJ_COIN, 2850, bn::sprite_items::spr_coin.create_sprite(-48, 2700));
                 TrackObject block2 = TrackObject(gp::OBJ_ROADBLOCK, 3100, bn::sprite_items::spr_roadblock.create_sprite(-48, 3100));
-                TrackObject mud2 = TrackObject(gp::OBJ_MUDSLICK, 3650, bn::sprite_items::spr_mudslick.create_sprite(32, 3650));
+                TrackObject mud2 = TrackObject(gp::OBJ_MUDSLICK, 3650, bn::sprite_items::spr_mudslick.create_sprite(42, 3650));
                 
                 segment3.add_object(mud);
                 segment3.add_object(coin);
@@ -53,9 +65,9 @@ namespace gp
                 segments.push_back(segment4);
 
                 TrackSegment segment5 = TrackSegment(5000, 1000, 0);
-                TrackObject mud3 = TrackObject(gp::OBJ_MUDSLICK, 5550, bn::sprite_items::spr_mudslick.create_sprite(0, 5250));
+                make_mud(&segment5, 32, 5550, 10);
+                make_mud(&segment5, 64, 5550, 10);
                 
-                segment5.add_object(mud3);
                 segments.push_back(segment5);
 
                 TrackSegment segment6 = TrackSegment(6000, 1000, 30);

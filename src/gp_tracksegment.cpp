@@ -35,7 +35,7 @@ namespace gp
         _objects.push_back(obj);
     }
 
-    bn::vector<TrackObject, 16>* TrackSegment::get_objects()
+    bn::vector<TrackObject, gp::SEGMENT_OBJ_MAX>* TrackSegment::get_objects()
     {
         return &_objects;
     }

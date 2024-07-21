@@ -20,6 +20,8 @@ namespace gp
         _rect.set_width(28);
         _rect.set_height(44);
         _inv = -1;
+        _mud = false;
+        _max_speed = gp::CAR_MAX_SPEED;
     }
 
     void Car::set_x(bn::fixed x)
@@ -88,9 +90,14 @@ namespace gp
         if(_inv>-1) flash(_inv);
         if(_hit==-1 && _inv==-1) _sprite.set_visible(true);
 
+        _max_speed = _mud ? gp::CAR_MAX_SPEED_MUD : gp::CAR_MAX_SPEED;
+
         if(_state==gp::CAR_STATE_NORMAL)
         {
-            if (_speed>gp::CAR_MAX_SPEED) _speed = gp::CAR_MAX_SPEED;
+            if (_speed>_max_speed)
+            {
+                _speed = gp::lerp(_speed, _max_speed, 0.1);
+            }
             _distance += (_speed/5);
         }
         else if(_state==gp::CAR_STATE_HIT)

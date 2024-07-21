@@ -49,6 +49,9 @@ namespace gp
             case gp::OBJ_COIN:
                 return bn::rect((int)_sprite.x(), (int)_sprite.y(), 16, 16);
                 break;
+            case gp::OBJ_MUD: case gp::OBJ_MUD_BOTTOM:
+                return bn::rect((int)_sprite.x(), (int)_sprite.y(), 32, 32);
+                break;
         }
     }
 

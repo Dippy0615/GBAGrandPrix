@@ -9,6 +9,7 @@
 namespace gp
 {
     void make_finishline(TrackSegment* segment);
+    void make_mud(TrackSegment* segment, int x, int dist, int length);
     bn::vector<TrackSegment, 16> get_track(int level);
 }
 

@@ -74,12 +74,12 @@ namespace gp
         TrackSegment* current_segment = &segments[current_segment_index];
         
         //Setup the objects
-        bn::vector<TrackObject, 16>* objects = current_segment->get_objects();
+        bn::vector<TrackObject, gp::SEGMENT_OBJ_MAX>* objects = current_segment->get_objects();
         
         //Setup the signs
-        bn::array<bool, 16> signs;
+        bn::array<bool, gp::SEGMENT_OBJ_MAX> signs;
         signs.fill(false);
-        bn::vector<Sign, 16> signs_obj;
+        bn::vector<Sign, gp::SEGMENT_OBJ_MAX> signs_obj;
 
         //Setup the text
         bn::sprite_text_generator text_mph(common::variable_8x16_sprite_font);
@@ -143,6 +143,7 @@ namespace gp
             //Handle track objects
             int index = 0;
             int type = 0;
+            int cols = 0;
             for(auto it = objects->begin(), end = objects->end(); it != end; )
             {
                 TrackObject object = *it;
@@ -155,7 +156,7 @@ namespace gp
                     signs[index] = true;
                     bn::sprite_ptr sign_sprite = bn::sprite_items::spr_warningsign.create_sprite(object._sprite.x(), -64);
                     sign_sprite.set_scale(0.75);
-                    if(signs_obj.size()<16)
+                    if(signs_obj.size()<gp::SEGMENT_OBJ_MAX)
                     {
                         sign_sprite.set_visible(false);
                         signs_obj.push_back(Sign(sign_sprite));
@@ -163,7 +164,7 @@ namespace gp
                 }
                 else
                 {
-                    if(type==gp::OBJ_FINISHLINE || type==gp::OBJ_COIN)
+                    if(type==gp::OBJ_FINISHLINE || type==gp::OBJ_COIN || type==gp::OBJ_MUD)
                     {
                         signs_obj[index]._sprite.set_visible(false);
                     }
@@ -187,6 +188,7 @@ namespace gp
                 //Collision
                 if(player_car->get_rect().intersects(object.get_rect()))
                 {
+                    cols++;
                     switch(type)
                     {
                         default:
@@ -206,6 +208,7 @@ namespace gp
                             }
                             break;
                         case gp::OBJ_COIN:
+                        {
                             it = objects->erase(it);
                             end = objects->end();
 
@@ -229,7 +232,15 @@ namespace gp
                                 }
                             }
                             break;
+                        }
+                        case gp::OBJ_MUD: case gp::OBJ_MUD_BOTTOM:
+                            player_car->_mud = true;
+                            break;
                     }
+                }
+                if(cols==0)
+                {
+                    player_car->_mud = false;
                 }
 
                 it++;
