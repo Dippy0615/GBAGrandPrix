@@ -106,22 +106,32 @@ namespace gp
 
         int time = 0;
         int lap = 0;
+        bn::fixed distance = 0;
 
         while(true)
         {
             time++;
 
             //Move to the next segment
-            if (player_car->distance()>current_segment->end())
+            if (distance>current_segment->end())
             {
+                //Move objects offscreen
+                for(auto it = objects->begin(), end = objects->end(); it != end; )
+                {
+                    TrackObject object = *it;
+                    object._sprite.set_y(object._sprite.y() + 200);
+                    it++;
+                }
+
                 current_segment_index++;
                 if(current_segment_index>=segments.size()) //Lap
                 {
                     if(lap<2) lap++;
                     current_segment_index = 0;
-                    player_car->set_distance(0);
+                    distance = 0;
                 }
                 current_segment = &segments[current_segment_index];
+
                 objects = current_segment->get_objects();
 
                 //Reset signs stuff
@@ -146,10 +156,13 @@ namespace gp
             int cols = 0;
             for(auto it = objects->begin(), end = objects->end(); it != end; )
             {
+                if(index>=objects->size()) break;
+
                 TrackObject object = *it;
                 type = object.type();
-                bn::fixed ypos = player_car->distance() - object.position();
+                bn::fixed ypos = distance - object.position();
                 object._sprite.set_y(ypos);
+
                 //Handle sign
                 if(!signs[index])
                 {
@@ -164,7 +177,7 @@ namespace gp
                 }
                 else
                 {
-                    if(type==gp::OBJ_FINISHLINE || type==gp::OBJ_COIN || type==gp::OBJ_MUD)
+                    if(type==gp::OBJ_FINISHLINE || type==gp::OBJ_COIN)
                     {
                         signs_obj[index]._sprite.set_visible(false);
                     }
@@ -193,7 +206,7 @@ namespace gp
                     {
                         default:
                             break;
-                        case gp::OBJ_MUDSLICK:
+                        case gp::OBJ_MUDSLICK: case gp::OBJ_LEAFPILE:
                             if(player_car->_state==gp::CAR_STATE_NORMAL && player_car->_inv==-1)
                             {
                                 player_car->_hit = gp::CAR_HIT_TIME;
@@ -213,24 +226,9 @@ namespace gp
                             end = objects->end();
 
                             signs[index] = false;
-                            
                             auto s_it = signs_obj.begin();
-                            auto s_end = signs_obj.end();
-                            int s_index = 0;
-                            while(s_it != s_end)
-                            {
-                                if(s_index==index)
-                                {
-                                    s_it = signs_obj.erase(s_it);
-                                    s_end = signs_obj.end();
-                                    break;
-                                }
-                                else
-                                {
-                                    s_it++;
-                                    s_index++;
-                                }
-                            }
+                            s_it += index;
+                            signs_obj.erase(s_it);
                             break;
                         }
                         case gp::OBJ_MUD: case gp::OBJ_MUD_BOTTOM:
@@ -248,6 +246,7 @@ namespace gp
             }
 
             player.update();
+            distance += (player_car->speed() / 5);
             if(road_angle<-5) player_car->set_x(player_car->x() + 0.75);
             if(road_angle>5) player_car->set_x(player_car->x() - 0.75);
             
@@ -260,7 +259,7 @@ namespace gp
             text_mph.generate(-88, 70, text, text_mph_sprites);
 
             //Player icon
-            bn::fixed icony = (player_car->distance() / track_length) * (16 * (bar.max_size()-1));
+            bn::fixed icony = (distance / track_length) * (16 * (bar.max_size()-1));
             plr_icon.set_y(gp::PLR_ICON_Y-icony);
 
             //Lap counter
