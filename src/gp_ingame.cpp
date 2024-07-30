@@ -85,7 +85,7 @@ namespace gp
         bn::sprite_text_generator text_mph(common::variable_8x16_sprite_font);
         text_mph.set_center_alignment();
         text_mph.set_bg_priority(0);
-        bn::vector<bn::sprite_ptr, 32> text_mph_sprites;
+        bn::vector<bn::sprite_ptr, 4> text_mph_sprites;
 
         //Setup the progress bar
         bn::vector<bn::sprite_ptr, 4> bar;
@@ -195,8 +195,8 @@ namespace gp
                     
                 }
                 
-                //Coin animation
-                object.coin_animate(time / 4);
+                //Animate if necessary
+                object.animate(time);
                 
                 //Collision
                 if(player_car->get_rect().intersects(object.get_rect()))
@@ -233,6 +233,12 @@ namespace gp
                         }
                         case gp::OBJ_MUD: case gp::OBJ_MUD_BOTTOM:
                             player_car->_mud = true;
+                            break;
+                        case gp::OBJ_BOOSTERPAD:
+                            if(player_car->speed()<gp::CAR_BOOSTER_SPEED)
+                            {
+                                player_car->accelerate(gp::CAR_BOOSTER_SPEED);
+                            }
                             break;
                     }
                 }

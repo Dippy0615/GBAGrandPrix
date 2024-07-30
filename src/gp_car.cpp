@@ -96,7 +96,7 @@ namespace gp
         {
             if (_speed>_max_speed)
             {
-                _speed = gp::lerp(_speed, _max_speed, 0.1);
+                _speed = gp::lerp(_speed, _max_speed, 0.075);
             }
             _distance += (_speed/5);
         }

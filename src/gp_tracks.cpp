@@ -5,6 +5,7 @@
 #include "bn_sprite_items_spr_mud.h"
 #include "bn_sprite_items_spr_mud_bottom.h"
 #include "bn_sprite_items_spr_leafpile.h"
+#include "bn_sprite_items_spr_boosterpad.h"
 #include "bn_sprite_ptr.h"
 #include "bn_vector.h"
 
@@ -149,6 +150,12 @@ namespace gp
                 make_mud(&segment5, -64, 6100, 8);
                 return segments;
             }
+            case 3:
+                TrackSegment segment1 = TrackSegment(0, 1000, 0);
+                make_finishline(&segment1);
+                segment1.add_object(TrackObject(gp::OBJ_BOOSTERPAD, 500, bn::sprite_items::spr_boosterpad.create_sprite(0, 500)));
+                segments.push_back(segment1);
+                return segments;
         }
         return segments;
     }

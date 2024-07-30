@@ -25,7 +25,7 @@ namespace gp
             int position();
             bn::sprite_ptr _sprite;
             bn::rect get_rect();
-            void coin_animate(int frame);
+            void animate(int frame);
     };
 }
 

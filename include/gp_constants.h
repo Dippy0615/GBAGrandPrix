@@ -10,6 +10,7 @@ namespace gp
     constexpr bn::fixed CAR_ACCEL = 0.035;
     constexpr bn::fixed CAR_ACCEL_MUD = 0.005;
     constexpr bn::fixed CAR_DEACCEL = 0.25;
+    constexpr int CAR_BOOSTER_SPEED = 40;
     constexpr int CAR_HIT_TIME = 90;
     constexpr int CAR_STATE_NORMAL = 0;
     constexpr int CAR_STATE_HIT = 1;
@@ -22,6 +23,7 @@ namespace gp
     constexpr int OBJ_MUD = 4;
     constexpr int OBJ_MUD_BOTTOM = 5;
     constexpr int OBJ_LEAFPILE = 6;
+    constexpr int OBJ_BOOSTERPAD = 7;
     constexpr int FINISHLINE_POSITION = 128;
     constexpr int SIGN_WARNING = 0;
     constexpr int BAR_X = 106;

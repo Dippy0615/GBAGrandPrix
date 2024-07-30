@@ -5,6 +5,7 @@
 #include "bn_fixed.h"
 #include "bn_optional.h"
 #include "bn_sprite_items_spr_coin.h"
+#include "bn_sprite_items_spr_boosterpad.h"
 
 #include "gp_trackobject.h"
 #include "gp_constants.h"
@@ -40,7 +41,7 @@ namespace gp
             case gp::OBJ_MUDSLICK: case gp::OBJ_COIN: case gp::OBJ_LEAFPILE:
                 return bn::rect((int)_sprite.x(), (int)_sprite.y(), 16, 16);
                 break;
-            case gp::OBJ_FINISHLINE: case gp::OBJ_MUD: case gp::OBJ_MUD_BOTTOM:
+            case gp::OBJ_FINISHLINE: case gp::OBJ_MUD: case gp::OBJ_MUD_BOTTOM: case gp::OBJ_BOOSTERPAD:
                 return bn::rect((int)_sprite.x(), (int)_sprite.y(), 32, 32);
                 break;
             case gp::OBJ_ROADBLOCK:
@@ -49,10 +50,22 @@ namespace gp
         }
     }
 
-    void TrackObject::coin_animate(int frame)
+    void TrackObject::animate(int frame)
     {
-        if(_type!=gp::OBJ_COIN) return;
+        if(_type!=gp::OBJ_COIN && _type!=gp::OBJ_BOOSTERPAD) return;
         
-        _sprite.set_tiles(bn::sprite_items::spr_coin.tiles_item().create_tiles(frame % 4));
+        switch(_type)
+        {
+            default: break;
+            case gp::OBJ_COIN:
+                frame /= 4;
+                _sprite.set_tiles(bn::sprite_items::spr_coin.tiles_item().create_tiles(frame % 4));
+                break;
+            case gp::OBJ_BOOSTERPAD:
+                frame /= 3;
+                _sprite.set_tiles(bn::sprite_items::spr_boosterpad.tiles_item().create_tiles(frame % 16));
+                break;
+        }
+        
     }
 }
