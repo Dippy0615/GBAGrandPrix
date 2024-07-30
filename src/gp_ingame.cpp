@@ -6,6 +6,8 @@
 #include "bn_regular_bg_ptr.h"
 #include "bn_regular_bg_items_bg_grass.h"
 #include "bn_regular_bg_items_bg_jungle.h"
+#include "bn_regular_bg_items_bg_sky.h"
+#include "bn_regular_bg_items_bg_space.h"
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_items_spr_car.h"
 #include "bn_sprite_items_spr_mudslick.h"
@@ -44,17 +46,15 @@ namespace gp
     {
         //Setup the road & background
         bn::regular_bg_ptr bg = bn::regular_bg_items::bg_grass.create_bg(0, 0);
-        if(level>0)
+        
+        switch(level)
         {
-            switch(level)
-            {
-                default:
-                    break;
-                case 1: 
-                    bg.set_item(bn::regular_bg_items::bg_jungle);
-                    break;
-            }
+            default: break;
+            case 1: bg.set_item(bn::regular_bg_items::bg_jungle); break;
+            case 2: bg.set_item(bn::regular_bg_items::bg_sky); break;
+            case 3: bg.set_item(bn::regular_bg_items::bg_space); break;
         }
+
         bn::affine_bg_ptr road = bn::affine_bg_items::bg_road.create_bg(0, 0);
         bg.set_priority(1);
         road.set_priority(0);
@@ -67,7 +67,7 @@ namespace gp
         Car* player_car = player.get_car();
 
         //Setup the track        
-        bn::vector<TrackSegment, 16> segments =  gp::get_track(level);
+        bn::vector<TrackSegment, gp::SEGMENTS_MAX> segments =  gp::get_track(level);
         int track_length = segments[segments.size()-1].end();
 
         int current_segment_index = 0;
@@ -102,7 +102,7 @@ namespace gp
         bn::sprite_text_generator lap_counter(common::variable_8x16_sprite_font);
         lap_counter.set_center_alignment();
         lap_counter.set_bg_priority(0);
-        bn::vector<bn::sprite_ptr, 32> lap_counter_sprites;
+        bn::vector<bn::sprite_ptr, 5> lap_counter_sprites;
 
         int time = 0;
         int lap = 0;
@@ -254,7 +254,7 @@ namespace gp
 
             //MPH text
             text_mph_sprites.clear();
-            bn::string<16> text;
+            bn::string<8> text;
             text = "MPH " + bn::to_string<16>((int)player_car->speed() * 7);
             text_mph.generate(-88, 70, text, text_mph_sprites);
 
@@ -264,7 +264,7 @@ namespace gp
 
             //Lap counter
             lap_counter_sprites.clear();
-            bn::string<16> lap_text;
+            bn::string<4> lap_text;
             lap_text = bn::to_string<3>(lap+1) + "/3";
             lap_counter.generate(88, 70, lap_text, lap_counter_sprites);
 

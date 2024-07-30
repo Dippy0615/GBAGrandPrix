@@ -6,11 +6,12 @@
 -add HUD (done)
 -add the other three levels
 	-add jungle BG (done)
-	-add jungle level
-	-add sky BG
+	-add jungle level (semi-done)
+	-add sky BG (maybe replace with better bg)
 	-add sky level
 	-add space BG
 	-add space level
+-add booster
 -improve grass BG
 -add particles
 -add shop screen

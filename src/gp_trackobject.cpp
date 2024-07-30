@@ -37,20 +37,14 @@ namespace gp
             default:
                 return bn::rect((int)_sprite.x(), (int)_sprite.y(), 0, 0);
                 break;
-            case gp::OBJ_MUDSLICK:
+            case gp::OBJ_MUDSLICK: case gp::OBJ_COIN: case gp::OBJ_LEAFPILE:
                 return bn::rect((int)_sprite.x(), (int)_sprite.y(), 16, 16);
                 break;
-            case gp::OBJ_FINISHLINE:
+            case gp::OBJ_FINISHLINE: case gp::OBJ_MUD: case gp::OBJ_MUD_BOTTOM:
                 return bn::rect((int)_sprite.x(), (int)_sprite.y(), 32, 32);
                 break;
             case gp::OBJ_ROADBLOCK:
                 return bn::rect((int)_sprite.x(), (int)_sprite.y(), 30, 12);
-                break;
-            case gp::OBJ_COIN: case gp::OBJ_LEAFPILE:
-                return bn::rect((int)_sprite.x(), (int)_sprite.y(), 16, 16);
-                break;
-            case gp::OBJ_MUD: case gp::OBJ_MUD_BOTTOM:
-                return bn::rect((int)_sprite.x(), (int)_sprite.y(), 32, 32);
                 break;
         }
     }
