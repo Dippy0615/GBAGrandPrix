@@ -31,6 +31,7 @@
 
 #include "gp_scene.h"
 #include "gp_ingame.h"
+#include "gp_postgame.h"
 #include "gp_car.h"
 #include "gp_player.h"
 #include "gp_tracksegment.h"
@@ -50,7 +51,8 @@ namespace gp
         _fade_action = bn::blending_fade_alpha_to_action(15, 1);
         while(!_fade_action.value().done()){
             _fade_action.value().update();
-            bn::core::update();
+            for(int i=0;i<2;i++)
+                bn::core::update();
         }
         bn::blending::set_fade_alpha(1);
     }
@@ -139,11 +141,13 @@ namespace gp
 
         //fade in
         bn::blending::set_fade_alpha(1);
-        bn::blending::set_fade_color(bn::blending::fade_color_type::BLACK);
+        bn::blending::set_fade_color(bn::blending::fade_color_type::WHITE);
         _fade_action = bn::blending_fade_alpha_to_action(30, 0);
         while(!_fade_action.value().done()){
             _fade_action.value().update();
-            bn::core::update();
+            for(int i=0;i<2;i++)
+                bn::core::update();
+
         }
         bn::blending::set_fade_alpha(0);
 
@@ -180,6 +184,7 @@ namespace gp
                 if(finish_time>400)
                 {
                     fade_out();
+                    return gp::Scene::Postgame;
                 }
             }
 
@@ -363,7 +368,7 @@ namespace gp
             for(bn::sprite_ptr spr: lap_counter_sprites){
                 spr.set_blending_enabled(true);
             }
-            
+
             bn::core::update();
         }
     }

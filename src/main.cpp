@@ -2,6 +2,7 @@
 
 #include "gp_scene.h"
 #include "gp_ingame.h"
+#include "gp_postgame.h"
 
 int main()
 {
@@ -18,6 +19,11 @@ int main()
         {
             gp::Ingame ingame = gp::Ingame();
             scene = ingame.execute(current_track);
+        }
+        if(scene == gp::Scene::Postgame)
+        {
+            gp::Postgame postgame = gp::Postgame();
+            scene = postgame.execute();
         }
     }
 }

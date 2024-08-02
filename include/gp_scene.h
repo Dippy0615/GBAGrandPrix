@@ -5,7 +5,8 @@ namespace gp
 {
     enum class Scene
     {
-        Ingame
+        Ingame,
+        Postgame
     };
 }
 
