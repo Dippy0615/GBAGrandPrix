@@ -13,6 +13,7 @@ namespace gp
     {
         _sprite.set_bg_priority(0);
         _sprite.set_scale(0.75);
+        _sprite.set_blending_enabled(true);
         _distance = 0;
         _speed = 0;
         _hit = -1;

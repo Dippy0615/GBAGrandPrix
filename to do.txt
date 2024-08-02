@@ -8,10 +8,11 @@
 	-add jungle BG (done)
 	-add jungle level (semi-done)
 	-add sky BG (maybe replace with better bg)
-	-add sky level
-	-add space BG
-	-add space level
--add booster
+	-add sky level (done)
+	-add space BG (done)
+	-add space level (done)
+-add booster (done)
+-improve levels
 -improve grass BG
 -add particles
 -add shop screen

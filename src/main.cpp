@@ -9,7 +9,7 @@ int main()
 
     gp::Scene scene = gp::Scene::Ingame;
 
-    int current_track = 3;
+    int current_track = 0;
 
     while(true)
     {

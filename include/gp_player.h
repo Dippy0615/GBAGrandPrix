@@ -17,6 +17,7 @@ namespace gp
             void update();
             Car* get_car();
             bool _control;
+            bool _finish;
     };
 }
 

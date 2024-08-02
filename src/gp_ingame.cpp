@@ -25,6 +25,7 @@
 #include "bn_rect.h"
 #include "bn_sprite_text_generator.h"
 #include "bn_string.h"
+#include "bn_optional.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -42,6 +43,18 @@ namespace gp
 {
     Ingame::Ingame(){}
 
+    void Ingame::fade_out()
+    {
+        bn::blending::set_fade_alpha(0);
+        bn::blending::set_fade_color(bn::blending::fade_color_type:: WHITE);
+        _fade_action = bn::blending_fade_alpha_to_action(15, 1);
+        while(!_fade_action.value().done()){
+            _fade_action.value().update();
+            bn::core::update();
+        }
+        bn::blending::set_fade_alpha(1);
+    }
+
     Scene Ingame::execute(int level)
     {
         //Setup the road & background
@@ -57,7 +70,9 @@ namespace gp
 
         bn::affine_bg_ptr road = bn::affine_bg_items::bg_road.create_bg(0, 0);
         bg.set_priority(1);
+        bg.set_blending_enabled(true);
         road.set_priority(0);
+        road.set_blending_enabled(true);
         bn::fixed road_angle = 0;
 
         //Setup the cars
@@ -85,7 +100,12 @@ namespace gp
         bn::sprite_text_generator text_mph(common::variable_8x16_sprite_font);
         text_mph.set_center_alignment();
         text_mph.set_bg_priority(0);
-        bn::vector<bn::sprite_ptr, 4> text_mph_sprites;
+        bn::vector<bn::sprite_ptr, 8> text_mph_sprites;
+
+        bn::sprite_text_generator text_finish(common::variable_8x16_sprite_font);
+        text_finish.set_center_alignment();
+        text_finish.set_bg_priority(0);
+        bn::vector<bn::sprite_ptr, 12> text_finish_sprites;
 
         //Setup the progress bar
         bn::vector<bn::sprite_ptr, 4> bar;
@@ -93,10 +113,13 @@ namespace gp
         {
             bn::sprite_ptr test = bn::sprite_items::spr_bar_mid.create_sprite(gp::BAR_X,gp::BAR_Y+(i*16));
             test.set_bg_priority(0);
+            test.set_blending_enabled(true);
             bar.push_back(test);
         }
         bn::sprite_ptr plr_icon = bn::sprite_items::spr_plr_icon.create_sprite(gp::BAR_X,gp::PLR_ICON_Y);
         plr_icon.set_bg_priority(0);
+        plr_icon.set_blending_enabled(true);
+
 
         //Setup the lap counter
         bn::sprite_text_generator lap_counter(common::variable_8x16_sprite_font);
@@ -105,12 +128,60 @@ namespace gp
         bn::vector<bn::sprite_ptr, 5> lap_counter_sprites;
 
         int time = 0;
-        int lap = 0;
+        int lap = 2;
+        bool finish = false;
+        int finish_time = 0;
+
+        int milliseconds = 0;
+        int seconds = 0;
+        int minutes = 0;
         bn::fixed distance = 0;
+
+        //fade in
+        bn::blending::set_fade_alpha(1);
+        bn::blending::set_fade_color(bn::blending::fade_color_type::BLACK);
+        _fade_action = bn::blending_fade_alpha_to_action(30, 0);
+        while(!_fade_action.value().done()){
+            _fade_action.value().update();
+            bn::core::update();
+        }
+        bn::blending::set_fade_alpha(0);
 
         while(true)
         {
             time++;
+            milliseconds++;
+            if(milliseconds>59)
+            {
+                milliseconds = 0;
+                seconds++;
+            }
+            if(seconds>59)
+            {
+                seconds = 0;
+                minutes++;
+            }
+
+            if(finish)
+            {
+                finish_time++;
+                if(finish_time==160)
+                {
+                    text_finish_sprites.clear();
+                    bn::string<16> text2;
+                    text2 = bn::to_string<16>(minutes) +" : ";
+                    text2 += bn::to_string<16>(seconds)+" : ";
+                    text2 += bn::to_string<16>((int)(milliseconds/bn::fixed(.6)));
+                    text_finish.generate(0, 0, text2, text_finish_sprites);
+                    for(bn::sprite_ptr spr: text_finish_sprites){
+                         spr.set_blending_enabled(true);
+                    }
+                }
+                if(finish_time>400)
+                {
+                    fade_out();
+                }
+            }
 
             //Move to the next segment
             if (distance>current_segment->end())
@@ -127,6 +198,15 @@ namespace gp
                 if(current_segment_index>=segments.size()) //Lap
                 {
                     if(lap<2) lap++;
+                    else 
+                    {
+                        finish = true;
+                        player._finish = true;
+                        text_finish.generate(0, 0, "FINISH!", text_finish_sprites);
+                        for(bn::sprite_ptr spr: text_finish_sprites){
+                            spr.set_blending_enabled(true);
+                        }
+                    }
                     current_segment_index = 0;
                     distance = 0;
                 }
@@ -154,105 +234,109 @@ namespace gp
             int index = 0;
             int type = 0;
             int cols = 0;
-            for(auto it = objects->begin(), end = objects->end(); it != end; )
+
+            if(!finish)
             {
-                if(index>=objects->size()) break;
-
-                TrackObject object = *it;
-                type = object.type();
-                bn::fixed ypos = distance - object.position();
-                object._sprite.set_y(ypos);
-
-                //Handle sign
-                if(!signs[index])
+                for(auto it = objects->begin(), end = objects->end(); it != end; )
                 {
-                    signs[index] = true;
-                    bn::sprite_ptr sign_sprite = bn::sprite_items::spr_warningsign.create_sprite(object._sprite.x(), -64);
-                    sign_sprite.set_scale(0.75);
-                    if(signs_obj.size()<gp::SEGMENT_OBJ_MAX)
+                    if(index>=objects->size()) break;
+
+                    TrackObject object = *it;
+                    type = object.type();
+                    bn::fixed ypos = distance - object.position();
+                    object._sprite.set_y(ypos);
+
+                    //Handle sign
+                    if(!signs[index])
                     {
-                        sign_sprite.set_visible(false);
-                        signs_obj.push_back(Sign(sign_sprite));
-                    }
-                }
-                else
-                {
-                    if(type==gp::OBJ_FINISHLINE || type==gp::OBJ_COIN || type==gp::OBJ_BOOSTERPAD)
-                    {
-                        signs_obj[index]._sprite.set_visible(false);
+                        signs[index] = true;
+                        bn::sprite_ptr sign_sprite = bn::sprite_items::spr_warningsign.create_sprite(object._sprite.x(), -64);
+                        sign_sprite.set_scale(0.75);
+                        if(signs_obj.size()<gp::SEGMENT_OBJ_MAX)
+                        {
+                            sign_sprite.set_visible(false);
+                            signs_obj.push_back(Sign(sign_sprite));
+                        }
                     }
                     else
                     {
-                        if(ypos<-350 || ypos>-100)
+                        if(type==gp::OBJ_FINISHLINE || type==gp::OBJ_COIN || type==gp::OBJ_BOOSTERPAD)
                         {
                             signs_obj[index]._sprite.set_visible(false);
                         }
-                        else if (ypos>-350)
+                        else
                         {
-                            signs_obj[index].flash();
+                            if(ypos<-350 || ypos>-100)
+                            {
+                                signs_obj[index]._sprite.set_visible(false);
+                            }
+                            else if (ypos>-350)
+                            {
+                                signs_obj[index].flash();
+                            }
                         }
+                        
                     }
                     
-                }
-                
-                //Animate if necessary
-                object.animate(time);
-                
-                //Collision
-                if(player_car->get_rect().intersects(object.get_rect()))
-                {
-                    cols++;
-                    switch(type)
+                    //Animate if necessary
+                    object.animate(time);
+                    
+                    //Collision
+                    if(player_car->get_rect().intersects(object.get_rect()))
                     {
-                        default:
-                            break;
-                        case gp::OBJ_MUDSLICK: case gp::OBJ_LEAFPILE:
-                            if(player_car->_state==gp::CAR_STATE_NORMAL && player_car->_inv==-1)
-                            {
-                                player_car->_hit = gp::CAR_HIT_TIME;
-                                player_car->_state = gp::CAR_STATE_HIT;
-                            }
-                            break;
-                        case gp::OBJ_ROADBLOCK:
-                            if(player_car->_state==gp::CAR_STATE_NORMAL && player_car->_inv==-1)
-                            {
-                                player_car->_hit = gp::CAR_HIT_TIME;
-                                player_car->_state = gp::CAR_STATE_HIT2;
-                            }
-                            break;
-                        case gp::OBJ_COIN:
+                        cols++;
+                        switch(type)
                         {
-                            it = objects->erase(it);
-                            end = objects->end();
-
-                            signs[index] = false;
-                            auto s_it = signs_obj.begin();
-                            s_it += index;
-                            signs_obj.erase(s_it);
-                            break;
-                        }
-                        case gp::OBJ_MUD: case gp::OBJ_MUD_BOTTOM:
-                            player_car->_mud = true;
-                            break;
-                        case gp::OBJ_BOOSTERPAD:
-                            if(player_car->speed()<gp::CAR_BOOSTER_SPEED)
+                            default:
+                                break;
+                            case gp::OBJ_MUDSLICK: case gp::OBJ_LEAFPILE:
+                                if(player_car->_state==gp::CAR_STATE_NORMAL && player_car->_inv==-1)
+                                {
+                                    player_car->_hit = gp::CAR_HIT_TIME;
+                                    player_car->_state = gp::CAR_STATE_HIT;
+                                }
+                                break;
+                            case gp::OBJ_ROADBLOCK:
+                                if(player_car->_state==gp::CAR_STATE_NORMAL && player_car->_inv==-1)
+                                {
+                                    player_car->_hit = gp::CAR_HIT_TIME;
+                                    player_car->_state = gp::CAR_STATE_HIT2;
+                                }
+                                break;
+                            case gp::OBJ_COIN:
                             {
-                                player_car->accelerate(gp::CAR_BOOSTER_SPEED);
-                            }
-                            break;
-                    }
-                }
-                if(cols==0)
-                {
-                    player_car->_mud = false;
-                }
+                                it = objects->erase(it);
+                                end = objects->end();
 
-                it++;
-                index++;
+                                signs[index] = false;
+                                auto s_it = signs_obj.begin();
+                                s_it += index;
+                                signs_obj.erase(s_it);
+                                break;
+                            }
+                            case gp::OBJ_MUD: case gp::OBJ_MUD_BOTTOM:
+                                player_car->_mud = true;
+                                break;
+                            case gp::OBJ_BOOSTERPAD:
+                                if(player_car->speed()<gp::CAR_BOOSTER_SPEED)
+                                {
+                                    player_car->accelerate(gp::CAR_BOOSTER_SPEED);
+                                }
+                                break;
+                        }
+                    }
+                    if(cols==0)
+                    {
+                        player_car->_mud = false;
+                    }
+
+                    it++;
+                    index++;
+                }
             }
 
             player.update();
-            distance += (player_car->speed() / 5);
+            if(!finish) distance += (player_car->speed() / 5);
             if(road_angle<-5) player_car->set_x(player_car->x() + 0.75);
             if(road_angle>5) player_car->set_x(player_car->x() - 0.75);
             
@@ -263,6 +347,9 @@ namespace gp
             bn::string<8> text;
             text = "MPH " + bn::to_string<16>((int)player_car->speed() * 7);
             text_mph.generate(-88, 70, text, text_mph_sprites);
+            for(bn::sprite_ptr spr: text_mph_sprites){
+                spr.set_blending_enabled(true);
+            }
 
             //Player icon
             bn::fixed icony = (distance / track_length) * (16 * (bar.max_size()-1));
@@ -273,7 +360,10 @@ namespace gp
             bn::string<4> lap_text;
             lap_text = bn::to_string<3>(lap+1) + "/3";
             lap_counter.generate(88, 70, lap_text, lap_counter_sprites);
-
+            for(bn::sprite_ptr spr: lap_counter_sprites){
+                spr.set_blending_enabled(true);
+            }
+            
             bn::core::update();
         }
     }

@@ -55,23 +55,25 @@ namespace gp
 
                 TrackSegment segment3 = TrackSegment(2000, 2000, 0);
                 segment3.add_object(TrackObject(gp::OBJ_MUDSLICK, 2400, bn::sprite_items::spr_mudslick.create_sprite(0, 2400)));
-                segment3.add_object(TrackObject(gp::OBJ_COIN, 2850, bn::sprite_items::spr_coin.create_sprite(-48, 2700)));
-                segment3.add_object(TrackObject(gp::OBJ_ROADBLOCK, 3100, bn::sprite_items::spr_roadblock.create_sprite(-48, 3100)));
-                segment3.add_object(TrackObject(gp::OBJ_MUDSLICK, 3650, bn::sprite_items::spr_mudslick.create_sprite(42, 3650)));
+                segment3.add_object(TrackObject(gp::OBJ_BOOSTERPAD, 3200, bn::sprite_items::spr_boosterpad.create_sprite(48, 2700)));
+                segment3.add_object(TrackObject(gp::OBJ_COIN, 3000, bn::sprite_items::spr_coin.create_sprite(-48, 2950)));
+                segment3.add_object(TrackObject(gp::OBJ_ROADBLOCK, 3550, bn::sprite_items::spr_roadblock.create_sprite(-48, 3100)));
                 segments.push_back(segment3);
 
                 TrackSegment segment4 = TrackSegment(4000, 1000, -30);
                 segments.push_back(segment4);
 
                 TrackSegment segment5 = TrackSegment(5000, 1000, 0);
-                make_mud(&segment5, 48, 5550, 10);
-                make_mud(&segment5, 64, 5550, 10);
+                make_mud(&segment5, 32, 5550, 9);
+                make_mud(&segment5, 64, 5550, 9);
+                segment5.add_object(TrackObject(gp::OBJ_COIN, 5450, bn::sprite_items::spr_coin.create_sprite(48, 5750)));
                 segments.push_back(segment5);
 
                 TrackSegment segment6 = TrackSegment(6000, 1000, 30);
                 segments.push_back(segment6);
 
                 TrackSegment segment7 = TrackSegment(7000, 1000, 0);
+                segment7.add_object(TrackObject(gp::OBJ_BOOSTERPAD, 7350, bn::sprite_items::spr_boosterpad.create_sprite(-48, 7150)));
                 segment7.add_object(TrackObject(gp::OBJ_ROADBLOCK, 7600, bn::sprite_items::spr_roadblock.create_sprite(24, 7600)));
                 segments.push_back(segment7);
                 return segments;
