@@ -31,7 +31,7 @@ namespace gp
     constexpr int PLR_ICON_Y = 25;
     constexpr int MAX_LAPS = 3;
     constexpr int SEGMENT_OBJ_MAX = 20;
-    constexpr int SEGMENTS_MAX = 12;
+    constexpr int SEGMENTS_MAX = 9;
 }
 
 #endif

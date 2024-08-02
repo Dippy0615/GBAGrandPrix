@@ -177,7 +177,7 @@ namespace gp
                 }
                 else
                 {
-                    if(type==gp::OBJ_FINISHLINE || type==gp::OBJ_COIN)
+                    if(type==gp::OBJ_FINISHLINE || type==gp::OBJ_COIN || type==gp::OBJ_BOOSTERPAD)
                     {
                         signs_obj[index]._sprite.set_visible(false);
                     }

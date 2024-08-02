@@ -14,10 +14,6 @@ namespace gp
         private:
             int _type;
             int _position;
-            int _rx;
-            int _ry;
-            int _rw;
-            int _rh;
             bn::fixed _coin_frame;
         public:
             TrackObject(int type, int position, bn::sprite_ptr sprite);
