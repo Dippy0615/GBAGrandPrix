@@ -86,7 +86,6 @@ namespace gp
         int menu = 0;
         bn::fixed time = 0;
 
-        bn::sprite_text_generator header_text(common::variable_8x16_sprite_font);
         bn::vector<bn::sprite_ptr, 16> header_text_sprites;
         text.generate(0, -74, "GAME BOY ADVANCE GRAND PRIX", header_text_sprites);
         for(bn::sprite_ptr spr : header_text_sprites)
@@ -133,7 +132,7 @@ namespace gp
                 switch(menu)
                 {
                     case 0: default:
-                        return gp::Scene::Ingame;
+                        return gp::Scene::TrackSelect;
                         break;
                     case 1:
                         break;

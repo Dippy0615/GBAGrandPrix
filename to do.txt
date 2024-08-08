@@ -12,12 +12,13 @@
 	-add space BG (done)
 	-add space level (done)
 -add booster (done)
--improve levels
+-improve levels (WIP)
 -improve grass BG
 -add particles
 -add shop screen
 -add other cars
 -add enemy car & enemy car AI
 -add sound & music 
--add title, menu screen, level select screen
+-add title, menu screen, level select screen (need to finish menu, post game, level select need to add title, shop, credits)
+-remember to set lap variable to 0 on ingame scene
 -replace car spritess with original art

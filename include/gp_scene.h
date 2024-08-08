@@ -6,6 +6,7 @@ namespace gp
     enum class Scene
     {
         Menu,
+        TrackSelect,
         Ingame,
         Postgame
     };

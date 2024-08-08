@@ -1,9 +1,11 @@
 #include "bn_core.h"
+#include "bn_optional.h"
 
 #include "gp_scene.h"
 #include "gp_menu.h"
 #include "gp_ingame.h"
 #include "gp_postgame.h"
+#include "gp_trackselect.h"
 
 int main()
 {
@@ -20,6 +22,20 @@ int main()
         {
             gp::Menu menu = gp::Menu();
             scene = menu.execute();
+        }
+        if (scene == gp::Scene::TrackSelect)
+        {
+            gp::TrackSelect trackselect = gp::TrackSelect();
+            auto track = trackselect.execute();
+            if(track.has_value())
+            {
+                current_track = track.value();
+                scene = gp::Scene::Ingame;
+            }
+            else
+            {
+                scene = gp::Scene::Menu;
+            }
         }
         if (scene == gp::Scene::Ingame)
         {
