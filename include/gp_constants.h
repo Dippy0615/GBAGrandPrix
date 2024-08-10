@@ -32,6 +32,9 @@ namespace gp
     constexpr int MAX_LAPS = 3;
     constexpr int SEGMENT_OBJ_MAX = 20;
     constexpr int SEGMENTS_MAX = 9;
+    constexpr int TECHNO_CAR_ID = 0;
+    constexpr int CYBER_TRUCK_ID = 1;
+    constexpr int SUPER_KART_ID = 2;
 }
 
 #endif

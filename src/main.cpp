@@ -6,6 +6,8 @@
 #include "gp_ingame.h"
 #include "gp_postgame.h"
 #include "gp_trackselect.h"
+#include "gp_globals.h"
+#include "gp_constants.h"
 
 int main()
 {
@@ -14,6 +16,7 @@ int main()
     gp::Scene scene = gp::Scene::Menu;
 
     int current_track = 0;
+    gp::current_car = gp::TECHNO_CAR_ID;
 
     while(true)
     {

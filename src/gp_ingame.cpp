@@ -10,6 +10,8 @@
 #include "bn_regular_bg_items_bg_space.h"
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_items_spr_car.h"
+#include "bn_sprite_items_spr_truck.h"
+#include "bn_sprite_items_spr_kart.h"
 #include "bn_sprite_items_spr_mudslick.h"
 #include "bn_sprite_items_spr_finishline.h"
 #include "bn_sprite_items_spr_roadblock.h"
@@ -39,6 +41,7 @@
 #include "gp_constants.h"
 #include "gp_trackobject.h"
 #include "gp_tracks.h"
+#include "gp_globals.h"
 
 namespace gp
 {
@@ -56,7 +59,8 @@ namespace gp
         }
         bn::blending::set_fade_alpha(1);
     }
-
+    
+    int current_car;
     Scene Ingame::execute(int level)
     {
         //Setup the road & background
@@ -79,6 +83,12 @@ namespace gp
 
         //Setup the cars
         bn::sprite_ptr car_sprite = bn::sprite_items::spr_car.create_sprite(0,24);
+        switch(current_car)
+        {
+            case gp::TECHNO_CAR_ID: default: car_sprite.set_scale(0.75); break;
+            case gp::CYBER_TRUCK_ID: car_sprite.set_item(bn::sprite_items::spr_truck); car_sprite.set_scale(0.95); break;
+            case gp::SUPER_KART_ID: car_sprite.set_item(bn::sprite_items::spr_kart); car_sprite.set_scale(0.95); break;
+        }
         Car car = Car(car_sprite);
         Player player = Player(car);
         Car* player_car = player.get_car();

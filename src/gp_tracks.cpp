@@ -56,7 +56,7 @@ namespace gp
                 TrackSegment segment3 = TrackSegment(2000, 2000, 0);
                 segment3.add_object(TrackObject(gp::OBJ_MUDSLICK, 2400, bn::sprite_items::spr_mudslick.create_sprite(0, 2400)));
                 segment3.add_object(TrackObject(gp::OBJ_BOOSTERPAD, 3500, bn::sprite_items::spr_boosterpad.create_sprite(48, 2700)));
-                segment3.add_object(TrackObject(gp::OBJ_COIN, 3100, bn::sprite_items::spr_coin.create_sprite(-48, 2950)));
+                segment3.add_object(TrackObject(gp::OBJ_COIN, 3300, bn::sprite_items::spr_coin.create_sprite(-48, 2950)));
                 segment3.add_object(TrackObject(gp::OBJ_ROADBLOCK, 3550, bn::sprite_items::spr_roadblock.create_sprite(-48, 3100)));
                 segments.push_back(segment3);
 
