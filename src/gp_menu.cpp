@@ -131,13 +131,9 @@ namespace gp
                 fade_out();
                 switch(menu)
                 {
-                    case 0: default:
-                        return gp::Scene::TrackSelect;
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
+                    case 0: default: return gp::Scene::TrackSelect; break;
+                    case 1: return gp::Scene::Shop; break;
+                    case 2: break;
                 }
             }
 

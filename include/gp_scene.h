@@ -7,6 +7,7 @@ namespace gp
     {
         Menu,
         TrackSelect,
+        Shop,
         Ingame,
         Postgame
     };

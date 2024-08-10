@@ -6,6 +6,7 @@
 #include "gp_ingame.h"
 #include "gp_postgame.h"
 #include "gp_trackselect.h"
+#include "gp_shop.h"
 #include "gp_globals.h"
 #include "gp_constants.h"
 
@@ -39,6 +40,11 @@ int main()
             {
                 scene = gp::Scene::Menu;
             }
+        }
+        if(scene == gp::Scene::Shop)
+        {
+            gp::Shop shop = gp::Shop();
+            scene = shop.execute();
         }
         if (scene == gp::Scene::Ingame)
         {

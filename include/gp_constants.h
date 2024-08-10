@@ -35,6 +35,7 @@ namespace gp
     constexpr int TECHNO_CAR_ID = 0;
     constexpr int CYBER_TRUCK_ID = 1;
     constexpr int SUPER_KART_ID = 2;
+    constexpr int SHOP_TYPE_CAR = 0;
 }
 
 #endif
