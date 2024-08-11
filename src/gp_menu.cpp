@@ -86,7 +86,7 @@ namespace gp
         int menu = 0;
         bn::fixed time = 0;
 
-        bn::vector<bn::sprite_ptr, 16> header_text_sprites;
+        bn::vector<bn::sprite_ptr, 24> header_text_sprites;
         text.generate(0, -74, "GAME BOY ADVANCE GRAND PRIX", header_text_sprites);
         for(bn::sprite_ptr spr : header_text_sprites)
         {

@@ -17,7 +17,9 @@ int main()
     gp::Scene scene = gp::Scene::Menu;
 
     int current_track = 0;
+    bn::array<bool, 3> cars = {true, false, false};
     gp::current_car = gp::TECHNO_CAR_ID;
+    int coins = 0;
 
     while(true)
     {

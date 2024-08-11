@@ -10,6 +10,7 @@
 #include "bn_regular_bg_items_bg_space.h"
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_items_spr_car.h"
+#include "bn_sprite_items_spr_car_pink.h"
 #include "bn_sprite_items_spr_truck.h"
 #include "bn_sprite_items_spr_kart.h"
 #include "bn_sprite_items_spr_mudslick.h"
@@ -87,7 +88,7 @@ namespace gp
         {
             case gp::TECHNO_CAR_ID: default: car_sprite.set_scale(0.75); break;
             case gp::CYBER_TRUCK_ID: car_sprite.set_item(bn::sprite_items::spr_truck); car_sprite.set_scale(0.95); break;
-            case gp::SUPER_KART_ID: car_sprite.set_item(bn::sprite_items::spr_kart); car_sprite.set_scale(0.95); break;
+            case gp::ELECTRO_MOBILE_ID: car_sprite.set_item(bn::sprite_items::spr_car_pink); car_sprite.set_scale(0.80); break;
         }
         Car car = Car(car_sprite);
         Player player = Player(car);

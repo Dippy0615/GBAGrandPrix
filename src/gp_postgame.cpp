@@ -8,6 +8,7 @@
 #include "bn_sprite_text_generator.h"
 #include "bn_vector.h"
 #include "bn_fixed.h"
+#include "bn_keypad.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -65,6 +66,12 @@ namespace gp
 
         while(true)
         {
+            if (bn::keypad::pressed(bn::keypad::key_type::A))
+            {
+                fade_out();
+                return gp::Scene::Menu;
+            }
+
             //Scroll the BG
             bg.set_x(bg.x() + bn::fixed(0.5));
             bg.set_y(bg.y() + bn::fixed(0.5));
