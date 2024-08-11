@@ -1,5 +1,6 @@
 #include "bn_core.h"
 #include "bn_optional.h"
+#include "bn_log.h"
 
 #include "gp_scene.h"
 #include "gp_menu.h"
@@ -7,8 +8,15 @@
 #include "gp_postgame.h"
 #include "gp_trackselect.h"
 #include "gp_shop.h"
+#include "gp_highscores.h"
 #include "gp_globals.h"
 #include "gp_constants.h"
+#include "gp_score.h"
+
+int gp::coins;
+bn::array<bool, 3> gp::cars;
+int gp::current_car;
+bn::vector<gp::Score, 4> gp::scores;
 
 int main()
 {
@@ -17,9 +25,15 @@ int main()
     gp::Scene scene = gp::Scene::Menu;
 
     int current_track = 0;
-    bn::array<bool, 3> cars = {true, false, false};
+    gp::cars = {true, false, false};
+
     gp::current_car = gp::TECHNO_CAR_ID;
-    int coins = 0;
+    gp::coins = 0;
+
+    gp::scores.push_back(gp::Score(0, 0, 0, 0));
+    gp::scores.push_back(gp::Score(0, 0, 0, 0));
+    gp::scores.push_back(gp::Score(0, 0, 0, 0));
+    gp::scores.push_back(gp::Score(0, 0, 0, 0));
 
     while(true)
     {
@@ -47,6 +61,11 @@ int main()
         {
             gp::Shop shop = gp::Shop();
             scene = shop.execute();
+        }
+        if(scene == gp::Scene::Highscores)
+        {
+            gp::Highscores highscores = gp::Highscores();
+            scene = highscores.execute();
         }
         if (scene == gp::Scene::Ingame)
         {

@@ -15,10 +15,10 @@
 -improve levels (WIP)
 -improve grass BG
 -add particles
--add shop screen
--add other cars
--add enemy car & enemy car AI
+-add shop screen (done)
+-add other cars (done)
+-add enemy car & enemy car AI (no)
 -add sound & music 
 -add title, menu screen, level select screen (need to finish menu, post game, level select need to add title, shop, credits)
 -remember to set lap variable to 0 on ingame scene
--replace car spritess with original art
+-replace car spritess with original art (no)

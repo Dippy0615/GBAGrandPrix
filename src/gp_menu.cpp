@@ -133,7 +133,7 @@ namespace gp
                 {
                     case 0: default: return gp::Scene::TrackSelect; break;
                     case 1: return gp::Scene::Shop; break;
-                    case 2: break;
+                    case 2: return gp::Scene::Highscores; break;
                 }
             }
 

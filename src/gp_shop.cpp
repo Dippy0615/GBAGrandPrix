@@ -20,6 +20,8 @@
 #include "bn_string.h"
 #include "bn_fixed.h"
 #include "bn_log.h"
+#include "bn_sprite_palette_ptr.h"
+#include "bn_colors.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -48,8 +50,6 @@ namespace gp
         bn::blending::set_fade_alpha(1);
     }
 
-    bn::array<bool, 3> cars;
-
     void Shop::check_shop_items(bn::vector<gp::ShopItem, 16>* items)
     {
         for(auto it = items->begin(), end = items->end(); it != end; )
@@ -65,8 +65,6 @@ namespace gp
         }
     }
 
-    int coins;
-    //int current_car;
     gp::Scene Shop::execute()
     {
         //Setup the background
@@ -119,7 +117,6 @@ namespace gp
         car2.set_camera(cam);
         car3.set_blending_enabled(true);
         car3.set_camera(cam);
-
         int time = 0;
 
         //fade in
@@ -216,9 +213,11 @@ namespace gp
                             default: break;
                             case 0: //Cyber Truck
                                 cars[1] = true;
+                                coins-=shop[shop_item].price();
                                 break;
                             case 1: //Electro-Mobile
                                 cars[2] = true;
+                                coins-=shop[shop_item].price();
                                 break;
                         }
 
@@ -247,7 +246,8 @@ namespace gp
                 if(car==2) car_text = "ELECTRO-MOBILE";
                 text.generate(0, 48, car_text, text_car_sprites);
                 if(car==current_car) text.generate(0, 56, "SELECTED", text_car_sprites);
-                
+                if(!cars[car]) text.generate(0, -56, "LOCKED", text_car_sprites);
+
                 //Handle buttons
                 if (bn::keypad::pressed(bn::keypad::key_type::LEFT))
                 {
@@ -263,7 +263,7 @@ namespace gp
 
                 if (bn::keypad::pressed(bn::keypad::key_type::A))
                 {
-                    current_car = car;
+                    if(cars[car]) current_car = car;
                 }
 
                 if (bn::keypad::pressed(bn::keypad::key_type::DOWN))

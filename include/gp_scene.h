@@ -8,6 +8,7 @@ namespace gp
         Menu,
         TrackSelect,
         Shop,
+        Highscores,
         Ingame,
         Postgame
     };

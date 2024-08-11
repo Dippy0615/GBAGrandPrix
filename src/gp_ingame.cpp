@@ -61,7 +61,6 @@ namespace gp
         bn::blending::set_fade_alpha(1);
     }
     
-    int current_car;
     Scene Ingame::execute(int level)
     {
         //Setup the road & background
@@ -165,16 +164,19 @@ namespace gp
         while(true)
         {
             time++;
-            milliseconds++;
-            if(milliseconds>59)
+            if(!finish)
             {
-                milliseconds = 0;
-                seconds++;
-            }
-            if(seconds>59)
-            {
-                seconds = 0;
-                minutes++;
+                milliseconds++;
+                if(milliseconds>59)
+                {
+                    milliseconds = 0;
+                    seconds++;
+                }
+                if(seconds>59)
+                {
+                    seconds = 0;
+                    minutes++;
+                }
             }
 
             if(finish)
@@ -194,6 +196,9 @@ namespace gp
                 }
                 if(finish_time>400)
                 {
+                    gp::Score score = scores[level];
+                    gp::Score new_score = gp::Score(level, milliseconds, seconds, minutes);
+                    if(score.is_empty() || score<new_score) scores[level] = new_score;
                     fade_out();
                     return gp::Scene::Postgame;
                 }
@@ -321,6 +326,7 @@ namespace gp
                                 break;
                             case gp::OBJ_COIN:
                             {
+                                coins++;
                                 it = objects->erase(it);
                                 end = objects->end();
 

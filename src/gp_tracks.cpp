@@ -106,7 +106,7 @@ namespace gp
                 segments.push_back(segment5);
 
                 TrackSegment segment6 = TrackSegment(4000, 500, 0);
-                make_mud(&segment6, -48, 4500, 6);
+                //make_mud(&segment6, -48, 4500, 6);
                 segments.push_back(segment6);
 
                 TrackSegment segment7 = TrackSegment(4500, 1000, 0);
