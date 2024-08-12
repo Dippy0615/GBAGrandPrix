@@ -9,6 +9,7 @@
 #include "gp_trackselect.h"
 #include "gp_shop.h"
 #include "gp_highscores.h"
+#include "gp_credits.h"
 #include "gp_globals.h"
 #include "gp_constants.h"
 #include "gp_score.h"
@@ -66,6 +67,11 @@ int main()
         {
             gp::Highscores highscores = gp::Highscores();
             scene = highscores.execute();
+        }
+        if(scene == gp::Scene::Credits)
+        {
+            gp::Credits credits = gp::Credits();
+            scene = credits.execute();
         }
         if (scene == gp::Scene::Ingame)
         {
