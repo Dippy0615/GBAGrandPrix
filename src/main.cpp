@@ -84,6 +84,19 @@ int main()
         {
             gp::Shop shop = gp::Shop();
             scene = shop.execute();
+            sram_data data;
+            for(int i=0;i<4;i++)
+            {
+                data.saved_times[i*3] = (uint8_t)gp::scores[i].millis();
+                data.saved_times[i*3+1] = (uint8_t)gp::scores[i].secs();
+                data.saved_times[i*3+2] = (uint8_t)gp::scores[i].mins();
+            }
+            data.saved_coins = (uint8_t)gp::coins;
+            for(int i=0;i<3;i++)
+            {
+                data.saved_cars[i] = gp::cars[i];
+            }
+            bn::sram::write(data);
         }
         if(scene == gp::Scene::Highscores)
         {
