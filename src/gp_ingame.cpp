@@ -84,11 +84,12 @@ namespace gp
 
         //Setup the cars
         bn::sprite_ptr car_sprite = bn::sprite_items::spr_car.create_sprite(0,24);
+        bn::fixed scale = 0.75;
         switch(current_car)
         {
             case gp::TECHNO_CAR_ID: default: car_sprite.set_scale(0.75); break;
-            case gp::CYBER_TRUCK_ID: car_sprite.set_item(bn::sprite_items::spr_truck); car_sprite.set_scale(0.95); break;
-            case gp::ELECTRO_MOBILE_ID: car_sprite.set_item(bn::sprite_items::spr_car_pink); car_sprite.set_scale(0.80); break;
+            case gp::CYBER_TRUCK_ID: car_sprite.set_item(bn::sprite_items::spr_truck); car_sprite.set_scale(0.95); scale = 0.95; break;
+            case gp::ELECTRO_MOBILE_ID: car_sprite.set_item(bn::sprite_items::spr_car_pink); car_sprite.set_scale(0.80);  scale = 0.80; break;
         }
         Car car = Car(car_sprite, current_car);
         Player player = Player(car);
@@ -143,6 +144,7 @@ namespace gp
         int time = 0;
         int lap = 0;
         bool finish = false;
+        bool lose = false;
         int finish_time = 0;
 
         int milliseconds = 0;
@@ -180,7 +182,7 @@ namespace gp
                 }
             }
 
-            if(finish)
+            if(finish && !lose)
             {
                 finish_time++;
                 if(finish_time==160)
@@ -201,6 +203,29 @@ namespace gp
                     gp::Score new_score = gp::Score(level, milliseconds, seconds, minutes);
                     if(score.is_empty() || score<new_score) scores[level] = new_score;
 
+                    fade_out();
+                    return gp::Scene::Postgame;
+                }
+            }
+            else if(finish && lose)
+            {
+                lost = true;
+                finish_time++;
+                text_finish_sprites.clear();
+                text_finish.generate(0, 0, "FALL OUT!", text_finish_sprites);
+                for(bn::sprite_ptr spr: text_finish_sprites){
+                    spr.set_blending_enabled(true);
+                }
+
+                if(scale>0) 
+                {
+                    car_sprite.set_scale(scale);
+                    scale-=.02;
+                }
+                
+
+                if(finish_time>200)
+                {
                     fade_out();
                     return gp::Scene::Postgame;
                 }
@@ -240,6 +265,15 @@ namespace gp
                 //Reset signs stuff
                 signs.fill(false);
                 signs_obj.clear();
+            }
+
+            //Check if the car has fallen off
+            if(player_car->x()<=-100 || player_car->x()>=100)
+            {
+                player_car->deccelerate(100);
+                player._finish = true;
+                finish = true;
+                lose = true;
             }
 
             //Scroll the background

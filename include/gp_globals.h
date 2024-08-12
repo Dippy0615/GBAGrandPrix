@@ -12,6 +12,7 @@ namespace gp
     extern bn::array<bool, 3> cars;
     extern int coins;
     extern bn::vector<gp::Score, 4> scores;
+    extern bool lost;
 }
 
 #endif
