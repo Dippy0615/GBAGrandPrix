@@ -14,6 +14,8 @@
 #include "bn_keypad.h"
 #include "bn_math.h"
 #include "bn_camera_ptr.h"
+#include "bn_sound_items.h"
+#include "bn_sound_actions.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -124,10 +126,26 @@ namespace gp
             cam.set_x(gp::lerp(cam.x(), menu*menu_spread, bn::fixed(0.1)));
 
             //Handle the buttons
-            if (bn::keypad::pressed(bn::keypad::key_type::LEFT)) if(menu>0) menu--;
-            if (bn::keypad::pressed(bn::keypad::key_type::RIGHT)) if(menu<menu_items-1) menu++;
+            if (bn::keypad::pressed(bn::keypad::key_type::LEFT)) 
+            {
+                if(menu>0) 
+                {
+                    menu--;
+                    bn::sound_items::beep.play(1);
+                }
+                
+            }
+            if (bn::keypad::pressed(bn::keypad::key_type::RIGHT))
+            {
+                if(menu<menu_items-1)
+                {
+                    menu++;
+                    bn::sound_items::beep.play(1);
+                }
+            }
             if (bn::keypad::pressed(bn::keypad::key_type::A))
             {
+                bn::sound_items::menusel.play(1);
                 fade_out();
                 switch(menu)
                 {

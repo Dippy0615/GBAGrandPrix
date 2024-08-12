@@ -15,6 +15,8 @@
 #include "bn_vector.h"
 #include "bn_keypad.h"
 #include "bn_camera_ptr.h"
+#include "bn_sound_items.h"
+#include "bn_sound_actions.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -26,11 +28,13 @@ namespace gp
 {
     TrackSelect::TrackSelect(){}
 
+    int len = 15;
+
     void TrackSelect::fade_out()
     {
         bn::blending::set_fade_alpha(0);
         bn::blending::set_fade_color(bn::blending::fade_color_type:: WHITE);
-        _fade_action = bn::blending_fade_alpha_to_action(15, 1);
+        _fade_action = bn::blending_fade_alpha_to_action(len, 1);
         while(!_fade_action.value().done()){
             _fade_action.value().update();
             for(int i=0;i<2;i++)
@@ -100,51 +104,67 @@ namespace gp
         }
 
         int time = 0;
+        int timer = -1;
 
         while(true)
         {
             time++;
+            if(timer>-1) timer--;
 
-            //Handle the buttons
-            if (bn::keypad::pressed(bn::keypad::key_type::RIGHT) && track<3)
-            {
-                track++;
-                text_sprites.clear();
-                text.generate(0, -74, "SELECT YOUR TRACK", text_sprites);
-                text.generate(0, 32, menu_text[track], text_sprites);
-                text.generate(-64, -16, "<", text_sprites);
-                text.generate(64, -16, ">", text_sprites);
-                for(bn::sprite_ptr spr : text_sprites)
-                {
-                    spr.set_blending_enabled(true);
-                }
-            }
-            
-            if (bn::keypad::pressed(bn::keypad::key_type::LEFT) && track>0)
-            {
-                track--;
-                text_sprites.clear();
-                text.generate(0, -74, "SELECT YOUR TRACK", text_sprites);
-                text.generate(0, 32, menu_text[track], text_sprites);
-                text.generate(-64, -16, "<", text_sprites);
-                text.generate(64, -16, ">", text_sprites);
-                for(bn::sprite_ptr spr : text_sprites)
-                {
-                    spr.set_blending_enabled(true);
-                }
-            }
-
-            if (bn::keypad::pressed(bn::keypad::key_type::A))
+            if(timer==0)
             {
                 fade_out();
                 return track;
             }
 
-            if (bn::keypad::pressed(bn::keypad::key_type::B))
+            if(timer==-1)
             {
-                fade_out();
-                return bn::nullopt_t(track);
+                //Handle the buttons
+                if (bn::keypad::pressed(bn::keypad::key_type::RIGHT) && track<3)
+                {
+                    bn::sound_items::beep.play(1);
+                    track++;
+                    text_sprites.clear();
+                    text.generate(0, -74, "SELECT YOUR TRACK", text_sprites);
+                    text.generate(0, 32, menu_text[track], text_sprites);
+                    text.generate(-64, -16, "<", text_sprites);
+                    text.generate(64, -16, ">", text_sprites);
+                    for(bn::sprite_ptr spr : text_sprites)
+                    {
+                        spr.set_blending_enabled(true);
+                    }
+                }
+                
+                if (bn::keypad::pressed(bn::keypad::key_type::LEFT) && track>0)
+                {
+                    bn::sound_items::beep.play(1);
+                    track--;
+                    text_sprites.clear();
+                    text.generate(0, -74, "SELECT YOUR TRACK", text_sprites);
+                    text.generate(0, 32, menu_text[track], text_sprites);
+                    text.generate(-64, -16, "<", text_sprites);
+                    text.generate(64, -16, ">", text_sprites);
+                    for(bn::sprite_ptr spr : text_sprites)
+                    {
+                        spr.set_blending_enabled(true);
+                    }
+                }
+
+                if (bn::keypad::pressed(bn::keypad::key_type::A))
+                {
+                    len = 25;
+                    bn::sound_items::confirm.play(0.7);
+                    timer = 40;
+                }
+
+                if (bn::keypad::pressed(bn::keypad::key_type::B))
+                {
+                    bn::sound_items::error.play(1);
+                    fade_out();
+                    return bn::nullopt_t(track);
+                }
             }
+            
 
             //Move the camera
             cam.set_x(gp::lerp(cam.x(), track*margin, bn::fixed(0.1)));

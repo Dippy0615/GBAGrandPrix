@@ -92,8 +92,8 @@ namespace gp
         if(_hit==-1 && _inv==-1) _sprite.set_visible(true);
 
         _max_speed = _mud ? gp::CAR_MAX_SPEED_MUD : gp::CAR_MAX_SPEED;
-        if(_id==gp::CYBER_TRUCK_ID) _max_speed += 5;
-        if(_id==gp::ELECTRO_MOBILE_ID) _max_speed += 11;
+        if(_id==gp::CYBER_TRUCK_ID) _max_speed += 4;
+        if(_id==gp::ELECTRO_MOBILE_ID) _max_speed += 7;
 
         if(_state==gp::CAR_STATE_NORMAL)
         {

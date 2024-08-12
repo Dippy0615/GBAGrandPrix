@@ -9,6 +9,8 @@
 #include "bn_vector.h"
 #include "bn_blending.h"
 #include "bn_blending_actions.h"
+#include "bn_sound_items.h"
+#include "bn_sound_actions.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -83,6 +85,7 @@ namespace gp
         {
             if (bn::keypad::pressed(bn::keypad::key_type::B))
             {
+                bn::sound_items::error.play(1);
                 fade_out();
                 return gp::Scene::Menu;
             }

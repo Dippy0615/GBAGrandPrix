@@ -9,6 +9,8 @@
 #include "bn_fixed.h"
 #include "bn_log.h"
 #include "bn_keypad.h"
+#include "bn_sound_items.h"
+#include "bn_sound_actions.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -38,7 +40,7 @@ namespace gp
 
         bn::sprite_text_generator text(common::variable_8x16_sprite_font);
         text.set_center_alignment();
-        bn::vector<bn::sprite_ptr, 32> text_sprites;
+        bn::vector<bn::sprite_ptr, 48> text_sprites;
         bn::string_view text_lines[] = {
             "GAME BOY ADVANCE GRAND PRIX",
             "A GBA JAM 2024 GAME",
@@ -47,6 +49,7 @@ namespace gp
             "DIPPY",
             "USING BUTANO",
             "BY GVALIENTE",
+            "github.com/GValiente/butano",
             "",
             "GRAPHICS:",
             "TRACK BACKGROUNDS:",
@@ -56,9 +59,14 @@ namespace gp
             "CAR SPRITES:",
             "TOP DOWN CARS",
             "BY TOKKA",
-            "ON ITCH.IO",
-            "REST IS DRAWN",
-            "BY DIPPY",
+            "tokka.itch.io/top-down-car",
+            "REST IS DRAWN BY DIPPY",
+            "",
+            "SOUND EFFECTS:",
+            "ALL SFX ARE FROM",
+            "FREESOUND.COM",
+            "DETAILED SOUND CREDITS",
+            "ARE IN CREDITS.TXT",
         };
 
         //fade in
@@ -93,6 +101,7 @@ namespace gp
 
             if (bn::keypad::held(bn::keypad::key_type::B))
             {
+                bn::sound_items::error.play(1);
                 fade_out();
                 return gp::Scene::Menu;
             }
@@ -123,7 +132,7 @@ namespace gp
             {
                 bn::sprite_ptr spr = *it;
 
-                if(spr.y()<-128) 
+                if(spr.y()<-122) 
                 {
                     it = text_sprites.erase(it);
                     end = text_sprites.end();

@@ -22,6 +22,8 @@
 #include "bn_log.h"
 #include "bn_sprite_palette_ptr.h"
 #include "bn_colors.h"
+#include "bn_sound_items.h"
+#include "bn_sound_actions.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -182,14 +184,20 @@ namespace gp
                 //Handle buttons
                 if (bn::keypad::pressed(bn::keypad::key_type::LEFT))
                 {
-                    shop_item--;
-                    if(shop_item<0) shop_item = 0;
+                    if(shop_item>0)
+                    {
+                        bn::sound_items::beep.play(1);
+                        shop_item--;
+                    }
                 }
 
                 if (bn::keypad::pressed(bn::keypad::key_type::RIGHT))
                 {
-                    shop_item++;
-                    if(shop_item>shop.size()-1) shop_item = shop.size()-1;
+                    if(shop_item<shop.size()-1)
+                    {
+                        bn::sound_items::beep.play(1);
+                        shop_item++;
+                    }
                 }
 
                 if (bn::keypad::pressed(bn::keypad::key_type::UP))
@@ -208,6 +216,7 @@ namespace gp
                 {
                     if(coins>=shop[shop_item].price())
                     {
+                        bn::sound_items::cashregister.play(1);
                         switch(shop_item)
                         {
                             default: break;
@@ -251,14 +260,20 @@ namespace gp
                 //Handle buttons
                 if (bn::keypad::pressed(bn::keypad::key_type::LEFT))
                 {
-                    car--;
-                    if(car<0) car = 0;
+                    if(car>0)
+                    {
+                        car--;
+                        bn::sound_items::beep.play(1);
+                    }
                 }
 
                 if (bn::keypad::pressed(bn::keypad::key_type::RIGHT))
                 {
-                    car++;
-                    if(car>2) car = 2;
+                    if(car<2)
+                    {
+                        bn::sound_items::beep.play(1);
+                        car++;
+                    }
                 }
 
                 if (bn::keypad::pressed(bn::keypad::key_type::A))
@@ -290,6 +305,7 @@ namespace gp
 
             if (bn::keypad::pressed(bn::keypad::key_type::B))
             {
+                bn::sound_items::error.play(1);
                 fade_out();
                 return gp::Scene::Menu;
             }

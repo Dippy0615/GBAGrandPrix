@@ -30,6 +30,7 @@
 #include "bn_string.h"
 #include "bn_optional.h"
 #include "bn_sram.h"
+#include "bn_sprite_items_variable_8x16_font_red.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -404,6 +405,7 @@ namespace gp
             text_mph_sprites.clear();
             bn::string<8> text;
             text = "MPH " + bn::to_string<16>((int)player_car->speed() * 7);
+            text_mph.set_palette_item(bn::sprite_items::variable_8x16_font_red.palette_item());
             text_mph.generate(-88, 70, text, text_mph_sprites);
             for(bn::sprite_ptr spr: text_mph_sprites){
                 spr.set_blending_enabled(true);
@@ -417,6 +419,7 @@ namespace gp
             lap_counter_sprites.clear();
             bn::string<4> lap_text;
             lap_text = bn::to_string<3>(lap+1) + "/3";
+            lap_counter.set_palette_item(bn::sprite_items::variable_8x16_font_red.palette_item());
             lap_counter.generate(88, 70, lap_text, lap_counter_sprites);
             for(bn::sprite_ptr spr: lap_counter_sprites){
                 spr.set_blending_enabled(true);
