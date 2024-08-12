@@ -24,6 +24,7 @@ namespace{
     struct sram_data{
             bn::array<uint8_t, 3*4> saved_times;
             uint8_t saved_coins;
+            bn::array<bool, 3> saved_cars;
         };
 }
 
@@ -51,6 +52,11 @@ int main()
         gp::scores[i] = gp::Score(i, saved_data.saved_times[i*3], saved_data.saved_times[i*3+1], saved_data.saved_times[i*3+2]);
     }
     gp::coins = saved_data.saved_coins;
+    for(int i=0;i<3;i++)
+    {
+        gp::cars[i] = saved_data.saved_cars[i];
+    }
+    gp::cars[0] = true;
 
     while(true)
     {
@@ -101,6 +107,10 @@ int main()
                 data.saved_times[i*3+2] = (uint8_t)gp::scores[i].mins();
             }
             data.saved_coins = (uint8_t)gp::coins;
+            for(int i=0;i<3;i++)
+            {
+                data.saved_cars[i] = gp::cars[i];
+            }
             bn::sram::write(data);
         }
         if(scene == gp::Scene::Postgame)
