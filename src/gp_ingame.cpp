@@ -391,6 +391,7 @@ namespace gp
                                 {
                                     hits++;
                                     if(type==gp::OBJ_MUDSLICK) bn::sound_items::squelch.play(1);
+                                    if(type==gp::OBJ_LEAFPILE) bn::sound_items::leaf.play(1);
                                     player_car->_hit = gp::CAR_HIT_TIME;
                                     player_car->_state = gp::CAR_STATE_HIT;
                                 }
@@ -406,6 +407,7 @@ namespace gp
                                 break;
                             case gp::OBJ_COIN:
                             {
+                                bn::sound_items::coin.play(1);
                                 coins++;
                                 new_coins++;
                                 it = objects->erase(it);
