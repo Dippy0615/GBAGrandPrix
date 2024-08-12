@@ -1,6 +1,7 @@
 #include "bn_core.h"
 #include "bn_optional.h"
 #include "bn_log.h"
+#include "bn_sram.h"
 
 #include "gp_scene.h"
 #include "gp_menu.h"
@@ -19,6 +20,13 @@ bn::array<bool, 3> gp::cars;
 int gp::current_car;
 bn::vector<gp::Score, 4> gp::scores;
 
+namespace{
+    struct sram_data{
+            bn::array<uint8_t, 3*4> saved_times;
+            uint8_t saved_coins;
+        };
+}
+
 int main()
 {
     bn::core::init();
@@ -35,6 +43,14 @@ int main()
     gp::scores.push_back(gp::Score(0, 0, 0, 0));
     gp::scores.push_back(gp::Score(0, 0, 0, 0));
     gp::scores.push_back(gp::Score(0, 0, 0, 0));
+
+    sram_data saved_data;
+    bn::sram::read(saved_data);
+    for(int i=0;i<4;i++)
+    {
+        gp::scores[i] = gp::Score(i, saved_data.saved_times[i*3], saved_data.saved_times[i*3+1], saved_data.saved_times[i*3+2]);
+    }
+    gp::coins = saved_data.saved_coins;
 
     while(true)
     {
@@ -77,6 +93,15 @@ int main()
         {
             gp::Ingame ingame = gp::Ingame();
             scene = ingame.execute(current_track);
+            sram_data data;
+            for(int i=0;i<4;i++)
+            {
+                data.saved_times[i*3] = (uint8_t)gp::scores[i].millis();
+                data.saved_times[i*3+1] = (uint8_t)gp::scores[i].secs();
+                data.saved_times[i*3+2] = (uint8_t)gp::scores[i].mins();
+            }
+            data.saved_coins = (uint8_t)gp::coins;
+            bn::sram::write(data);
         }
         if(scene == gp::Scene::Postgame)
         {

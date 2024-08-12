@@ -29,6 +29,7 @@
 #include "bn_sprite_text_generator.h"
 #include "bn_string.h"
 #include "bn_optional.h"
+#include "bn_sram.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -199,6 +200,7 @@ namespace gp
                     gp::Score score = scores[level];
                     gp::Score new_score = gp::Score(level, milliseconds, seconds, minutes);
                     if(score.is_empty() || score<new_score) scores[level] = new_score;
+
                     fade_out();
                     return gp::Scene::Postgame;
                 }
