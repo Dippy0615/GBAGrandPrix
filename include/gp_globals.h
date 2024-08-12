@@ -13,6 +13,8 @@ namespace gp
     extern int coins;
     extern bn::vector<gp::Score, 4> scores;
     extern bool lost;
+    extern int new_coins;
+    extern int hits;
 }
 
 #endif

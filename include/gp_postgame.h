@@ -13,7 +13,7 @@ namespace gp
         private:
         public:
             Postgame();
-            gp::Scene execute();
+            gp::Scene execute(int level);
             bn::optional<bn::blending_fade_alpha_to_action> _fade_action;
             void fade_out();
     };

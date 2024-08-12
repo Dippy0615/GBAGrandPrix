@@ -63,10 +63,11 @@ namespace gp
             "REST IS DRAWN BY DIPPY",
             "",
             "SOUND EFFECTS:",
-            "ALL SFX ARE FROM",
+            "MOST SFX IS FROM",
             "FREESOUND.COM",
             "DETAILED SOUND CREDITS",
             "ARE IN CREDITS.TXT",
+            "",
         };
 
         //fade in

@@ -278,7 +278,11 @@ namespace gp
 
                 if (bn::keypad::pressed(bn::keypad::key_type::A))
                 {
-                    if(cars[car]) current_car = car;
+                    if(cars[car]) 
+                    {
+                        bn::sound_items::select.play(1);
+                        current_car = car;
+                    }
                 }
 
                 if (bn::keypad::pressed(bn::keypad::key_type::DOWN))

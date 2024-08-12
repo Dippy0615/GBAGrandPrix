@@ -16,6 +16,9 @@ namespace gp
     void Sign::flash()
     {
         _flash_counter++;
-        if(_flash_counter%10==0) _sprite.set_visible(!_sprite.visible());
+        if(_flash_counter%10==0) 
+        {
+            _sprite.set_visible(!_sprite.visible());
+        }
     }
 }

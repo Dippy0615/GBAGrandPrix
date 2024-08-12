@@ -31,6 +31,8 @@
 #include "bn_optional.h"
 #include "bn_sram.h"
 #include "bn_sprite_items_variable_8x16_font_red.h"
+#include "bn_sound_items.h"
+#include "bn_sound_actions.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -146,6 +148,7 @@ namespace gp
         int lap = 0;
         bool finish = false;
         bool lose = false;
+        int start_timer = 60*3;
         int finish_time = 0;
 
         int milliseconds = 0;
@@ -168,7 +171,27 @@ namespace gp
         while(true)
         {
             time++;
-            if(!finish)
+            if(start_timer>-1) 
+            {
+                player._finish = true;
+                text_finish_sprites.clear();
+                bn::fixed thetime = (start_timer-1)/60;
+                if(start_timer % 60 == 0)
+                {
+                    if(start_timer>0) bn::sound_items::beep2.play(1);
+                    else 
+                    {
+                        bn::sound_items::beep3.play(1);
+                        text_finish_sprites.clear();
+                        player._finish = false;
+                    }
+                }
+                
+                if(start_timer>0) text_finish.generate(0, 0, bn::to_string<4>(thetime.ceil_integer()+1), text_finish_sprites);
+                start_timer--;
+            }
+
+            if(!finish && start_timer<0)
             {
                 milliseconds++;
                 if(milliseconds>59)
@@ -350,6 +373,8 @@ namespace gp
                             case gp::OBJ_MUDSLICK: case gp::OBJ_LEAFPILE:
                                 if(player_car->_state==gp::CAR_STATE_NORMAL && player_car->_inv==-1)
                                 {
+                                    hits++;
+                                    if(type==gp::OBJ_MUDSLICK) bn::sound_items::squelch.play(1);
                                     player_car->_hit = gp::CAR_HIT_TIME;
                                     player_car->_state = gp::CAR_STATE_HIT;
                                 }
@@ -357,6 +382,8 @@ namespace gp
                             case gp::OBJ_ROADBLOCK:
                                 if(player_car->_state==gp::CAR_STATE_NORMAL && player_car->_inv==-1)
                                 {
+                                    hits++;
+                                    bn::sound_items::crash.play(1);
                                     player_car->_hit = gp::CAR_HIT_TIME;
                                     player_car->_state = gp::CAR_STATE_HIT2;
                                 }
@@ -364,6 +391,7 @@ namespace gp
                             case gp::OBJ_COIN:
                             {
                                 coins++;
+                                new_coins++;
                                 it = objects->erase(it);
                                 end = objects->end();
 
@@ -379,6 +407,7 @@ namespace gp
                             case gp::OBJ_BOOSTERPAD:
                                 if(player_car->speed()<gp::CAR_BOOSTER_SPEED)
                                 {
+                                    bn::sound_items::boost.play(1);
                                     player_car->accelerate(gp::CAR_BOOSTER_SPEED);
                                 }
                                 break;

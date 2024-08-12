@@ -20,6 +20,8 @@ bn::array<bool, 3> gp::cars;
 int gp::current_car;
 bn::vector<gp::Score, 4> gp::scores;
 bool gp::lost;
+int gp::new_coins;
+int gp::hits;
 
 namespace{
     struct sram_data{
@@ -40,6 +42,7 @@ int main()
 
     gp::current_car = gp::TECHNO_CAR_ID;
     gp::coins = 0;
+    gp::new_coins = 0;
 
     gp::scores.push_back(gp::Score(0, 0, 0, 0));
     gp::scores.push_back(gp::Score(0, 0, 0, 0));
@@ -47,7 +50,8 @@ int main()
     gp::scores.push_back(gp::Score(0, 0, 0, 0));
 
     gp::lost = false;
-
+    gp::hits = 0;
+    
     sram_data saved_data;
     bn::sram::read(saved_data);
     for(int i=0;i<4;i++)
@@ -131,12 +135,20 @@ int main()
                 }
                 bn::sram::write(data);
             }
+            else
+            {
+                gp::coins -= gp::new_coins;
+                gp::new_coins = 0;
+                gp::hits = 0;
+            }
             
         }
         if(scene == gp::Scene::Postgame)
         {
             gp::Postgame postgame = gp::Postgame();
-            scene = postgame.execute();
+            scene = postgame.execute(current_track);
+            gp::new_coins = 0;
+            gp::hits = 0;
         }
     }
 }
