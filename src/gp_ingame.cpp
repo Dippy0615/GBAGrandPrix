@@ -149,6 +149,7 @@ namespace gp
         bool finish = false;
         bool lose = false;
         int start_timer = 60*3;
+        int lap_timer = -1;
         int finish_time = 0;
 
         int milliseconds = 0;
@@ -171,6 +172,15 @@ namespace gp
         while(true)
         {
             time++;
+            if(lap_timer>-1)
+            {
+                text_finish_sprites.clear();
+                text_finish.generate(0, 0, "LAP "+bn::to_string<8>(lap+1), text_finish_sprites);
+                lap_timer--;
+                if(lap_timer==-1) text_finish_sprites.clear();
+            }
+
+
             if(start_timer>-1) 
             {
                 player._finish = true;
@@ -251,7 +261,7 @@ namespace gp
                 if(finish_time>200)
                 {
                     fade_out();
-                    return gp::Scene::Postgame;
+                    return gp::Scene::TrackSelect;
                 }
             }
 
@@ -269,7 +279,12 @@ namespace gp
                 current_segment_index++;
                 if(current_segment_index>=segments.size()) //Lap
                 {
-                    if(lap<2) lap++;
+                    bn::sound_items::flag.play(1);
+                    if(lap<2)
+                    {
+                        lap++;
+                        lap_timer = 150;
+                    }
                     else 
                     {
                         finish = true;
@@ -292,8 +307,9 @@ namespace gp
             }
 
             //Check if the car has fallen off
-            if(player_car->x()<=-100 || player_car->x()>=100)
+            if((player_car->x()<=-100 || player_car->x()>=100) && !lose)
             {
+                bn::sound_items::fall.play(1);
                 player_car->deccelerate(100);
                 player._finish = true;
                 finish = true;
