@@ -89,7 +89,7 @@ namespace gp
             case gp::CYBER_TRUCK_ID: car_sprite.set_item(bn::sprite_items::spr_truck); car_sprite.set_scale(0.95); break;
             case gp::ELECTRO_MOBILE_ID: car_sprite.set_item(bn::sprite_items::spr_car_pink); car_sprite.set_scale(0.80); break;
         }
-        Car car = Car(car_sprite);
+        Car car = Car(car_sprite, current_car);
         Player player = Player(car);
         Car* player_car = player.get_car();
 
@@ -140,7 +140,7 @@ namespace gp
         bn::vector<bn::sprite_ptr, 5> lap_counter_sprites;
 
         int time = 0;
-        int lap = 2;
+        int lap = 0;
         bool finish = false;
         int finish_time = 0;
 

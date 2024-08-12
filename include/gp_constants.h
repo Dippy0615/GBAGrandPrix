@@ -7,7 +7,7 @@ namespace gp
 {
     constexpr int CAR_MAX_SPEED = 30;
     constexpr int CAR_MAX_SPEED_MUD = 10;
-    constexpr bn::fixed CAR_ACCEL = 0.035;
+    constexpr bn::fixed CAR_ACCEL = 0.03;
     constexpr bn::fixed CAR_ACCEL_MUD = 0.005;
     constexpr bn::fixed CAR_DEACCEL = 0.25;
     constexpr int CAR_BOOSTER_SPEED = 40;

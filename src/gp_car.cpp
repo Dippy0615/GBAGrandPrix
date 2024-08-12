@@ -9,7 +9,7 @@
 
 namespace gp
 {
-    Car::Car(bn::sprite_ptr sprite) : _sprite(sprite)
+    Car::Car(bn::sprite_ptr sprite, int id) : _sprite(sprite), _id(id)
     {
         _sprite.set_bg_priority(0);
         //_sprite.set_scale(0.75);
@@ -92,6 +92,8 @@ namespace gp
         if(_hit==-1 && _inv==-1) _sprite.set_visible(true);
 
         _max_speed = _mud ? gp::CAR_MAX_SPEED_MUD : gp::CAR_MAX_SPEED;
+        if(_id==gp::CYBER_TRUCK_ID) _max_speed += 5;
+        if(_id==gp::ELECTRO_MOBILE_ID) _max_speed += 11;
 
         if(_state==gp::CAR_STATE_NORMAL)
         {

@@ -14,8 +14,9 @@ namespace gp
             bn::fixed _speed;
             bn::rect _rect;
             bn::fixed _max_speed;
+            int _id;
         public:
-            Car(bn::sprite_ptr sprite);
+            Car(bn::sprite_ptr sprite, int id);
             void update();
             void set_x(bn::fixed x);
             bn::fixed x();
