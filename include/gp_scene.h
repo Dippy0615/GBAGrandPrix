@@ -7,6 +7,7 @@ namespace gp
     {
         SplashScreen,
         Title,
+        HowToPlay,
         Menu,
         TrackSelect,
         Shop,

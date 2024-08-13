@@ -71,10 +71,10 @@ namespace gp
         bn::camera_ptr cam = bn::camera_ptr::create(0, 0);
 
         //Setup the text
-        int menu_items = 4;
+        int menu_items = 5;
         int menu_spread = 255;
 
-        bn::string_view menu_text[] = {"PLAY", "SHOP", "HIGHSCORES", "CREDITS"};
+        bn::string_view menu_text[] = {"PLAY", "HOW TO PLAY", "SHOP", "HIGHSCORES", "CREDITS"};
         bn::sprite_text_generator text(common::variable_8x16_sprite_font);
         bn::vector<bn::sprite_ptr, 16> text_sprites;
         text.set_center_alignment();
@@ -150,9 +150,10 @@ namespace gp
                 switch(menu)
                 {
                     case 0: default: return gp::Scene::TrackSelect; break;
-                    case 1: return gp::Scene::Shop; break;
-                    case 2: return gp::Scene::Highscores; break;
-                    case 3: return gp::Scene::Credits; break;
+                    case 1: return gp::Scene::HowToPlay; break;
+                    case 2: return gp::Scene::Shop; break;
+                    case 3: return gp::Scene::Highscores; break;
+                    case 4: return gp::Scene::Credits; break;
                 }
             }
 

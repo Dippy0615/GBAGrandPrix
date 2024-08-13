@@ -10,6 +10,7 @@
 #include "gp_splashscreen.h"
 #include "gp_title.h"
 #include "gp_menu.h"
+#include "gp_howtoplay.h"
 #include "gp_ingame.h"
 #include "gp_postgame.h"
 #include "gp_trackselect.h"
@@ -96,6 +97,11 @@ int main()
             }
             gp::Menu menu = gp::Menu();
             scene = menu.execute();
+        }
+        if (scene == gp::Scene::HowToPlay)
+        {
+            gp::HowToPlay howtoplay = gp::HowToPlay();
+            scene = howtoplay.execute();
         }
         if (scene == gp::Scene::TrackSelect)
         {
