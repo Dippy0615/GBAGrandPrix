@@ -15,6 +15,7 @@ namespace gp
     extern bool lost;
     extern int new_coins;
     extern int hits;
+    extern bool play_menu_song;
 }
 
 #endif

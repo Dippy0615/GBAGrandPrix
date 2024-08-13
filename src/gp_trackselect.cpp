@@ -17,6 +17,7 @@
 #include "bn_camera_ptr.h"
 #include "bn_sound_items.h"
 #include "bn_sound_actions.h"
+#include "bn_music.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -154,6 +155,7 @@ namespace gp
                 {
                     len = 25;
                     bn::sound_items::confirm.play(0.7);
+                    bn::music::stop();
                     timer = 40;
                 }
 

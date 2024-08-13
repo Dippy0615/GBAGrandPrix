@@ -5,6 +5,8 @@
 #include "bn_regular_bg_ptr.h"
 #include "bn_regular_bg_items_gbajam24_logo.h"
 #include "bn_keypad.h"
+#include "bn_sound_items.h"
+#include "bn_sound_actions.h"
 
 #include "gp_scene.h"
 #include "gp_splashscreen.h"
@@ -53,6 +55,11 @@ namespace gp
         while(true)
         {
             timer++;
+            if(timer==2)
+            {
+                bn::sound_items::logo.play(1);
+            }
+
             if (bn::keypad::held(bn::keypad::key_type::A))
             {
                 timer = 60*3;

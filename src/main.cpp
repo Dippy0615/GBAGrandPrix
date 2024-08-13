@@ -2,6 +2,9 @@
 #include "bn_optional.h"
 #include "bn_log.h"
 #include "bn_sram.h"
+#include "bn_music_items.h"
+#include "bn_music_actions.h"
+#include "bn_sound.h"
 
 #include "gp_scene.h"
 #include "gp_splashscreen.h"
@@ -24,6 +27,7 @@ bn::vector<gp::Score, 4> gp::scores;
 bool gp::lost;
 int gp::new_coins;
 int gp::hits;
+bool gp::play_menu_song;
 
 namespace{
     struct sram_data{
@@ -54,6 +58,9 @@ int main()
     gp::lost = false;
     gp::hits = 0;
     
+    gp::play_menu_song = true;
+    bn::sound::set_master_volume(0.75);
+
     sram_data saved_data;
     bn::sram::read(saved_data);
     for(int i=0;i<4;i++)
@@ -82,6 +89,11 @@ int main()
         }
         if (scene == gp::Scene::Menu)
         {
+            if(gp::play_menu_song) 
+            {
+                bn::music_items::menu.play(1);
+                gp::play_menu_song = false;
+            }
             gp::Menu menu = gp::Menu();
             scene = menu.execute();
         }
@@ -129,6 +141,7 @@ int main()
         }
         if (scene == gp::Scene::Ingame)
         {
+            gp::play_menu_song = true;
             gp::Ingame ingame = gp::Ingame();
             scene = ingame.execute(current_track);
             if(!gp::lost)
