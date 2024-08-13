@@ -290,7 +290,7 @@ namespace gp
                     shop_mode = true;
                     text_header_sprites.clear();
                     text_car_sprites.clear();
-                    text.generate(0, -74, "B: EXIT    UP: SHOP", text_header_sprites);
+                    text.generate(0, -74, "B: EXIT    UP: CARS", text_header_sprites);
                     switch_timer = 0;
                 }
 

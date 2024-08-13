@@ -5,6 +5,7 @@ namespace gp
 {
     enum class Scene
     {
+        SplashScreen,
         Menu,
         TrackSelect,
         Shop,

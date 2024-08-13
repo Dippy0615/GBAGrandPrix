@@ -4,6 +4,7 @@
 #include "bn_sram.h"
 
 #include "gp_scene.h"
+#include "gp_splashscreen.h"
 #include "gp_menu.h"
 #include "gp_ingame.h"
 #include "gp_postgame.h"
@@ -35,7 +36,7 @@ int main()
 {
     bn::core::init();
 
-    gp::Scene scene = gp::Scene::Menu;
+    gp::Scene scene = gp::Scene::SplashScreen;
 
     int current_track = 0;
     gp::cars = {true, false, false};
@@ -68,6 +69,11 @@ int main()
     while(true)
     {
         bn::core::update();
+        if (scene == gp::Scene::SplashScreen)
+        {
+            gp::SplashScreen splash = gp::SplashScreen();
+            scene = splash.execute();
+        }
         if (scene == gp::Scene::Menu)
         {
             gp::Menu menu = gp::Menu();
