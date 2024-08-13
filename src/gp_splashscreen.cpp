@@ -61,7 +61,7 @@ namespace gp
             if(timer>=60*3)
             {
                 fade_out();
-                return gp::Scene::Menu;
+                return gp::Scene::Title;
             }
             bn::core::update();
         }

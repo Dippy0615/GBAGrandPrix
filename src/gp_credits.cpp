@@ -60,6 +60,8 @@ namespace gp
             "TOP DOWN CARS",
             "BY TOKKA",
             "tokka.itch.io/top-down-car",
+            "GBA JAM LOGO:",
+            "GBA JAM ORGANIZERS",
             "REST IS DRAWN BY DIPPY",
             "",
             "SOUND EFFECTS:",

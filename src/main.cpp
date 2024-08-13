@@ -5,6 +5,7 @@
 
 #include "gp_scene.h"
 #include "gp_splashscreen.h"
+#include "gp_title.h"
 #include "gp_menu.h"
 #include "gp_ingame.h"
 #include "gp_postgame.h"
@@ -73,6 +74,11 @@ int main()
         {
             gp::SplashScreen splash = gp::SplashScreen();
             scene = splash.execute();
+        }
+        if (scene == gp::Scene::Title)
+        {
+            gp::Title title = gp::Title();
+            scene = title.execute();
         }
         if (scene == gp::Scene::Menu)
         {
