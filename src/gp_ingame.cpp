@@ -18,8 +18,11 @@
 #include "bn_sprite_items_spr_roadblock.h"
 #include "bn_sprite_items_spr_warningsign.h"
 #include "bn_sprite_items_spr_coin.h"
+#include "bn_sprite_items_spr_orb.h"
 #include "bn_sprite_items_spr_bar_mid.h"
 #include "bn_sprite_items_spr_plr_icon.h"
+#include "bn_sprite_items_spr_boost_frame.h"
+#include "bn_sprite_items_spr_boost_bar.h"
 #include "bn_sprite_animate_actions.h"
 #include "bn_array.h"
 #include "bn_log.h"
@@ -126,6 +129,23 @@ namespace gp
         text_finish.set_bg_priority(0);
         bn::vector<bn::sprite_ptr, 12> text_finish_sprites;
 
+        //Setup boost stuff
+        bn::vector<bn::sprite_ptr, 4> text_boost_sprites;
+        text_mph.set_palette_item(bn::sprite_items::variable_8x16_font_red.palette_item());
+        text_mph.generate(0, 70, "BOOST", text_boost_sprites);
+        for(bn::sprite_ptr spr: text_boost_sprites){
+            spr.set_blending_enabled(true);
+        }
+        
+        bn::sprite_ptr boost_bar = bn::sprite_items::spr_boost_bar.create_sprite(0, 60);
+        boost_bar.set_blending_enabled(true);
+        boost_bar.set_horizontal_scale(0.1);
+        boost_bar.set_bg_priority(0);
+        bn::sprite_ptr boost_frame = bn::sprite_items::spr_boost_frame.create_sprite(0, 60);
+        boost_frame.set_blending_enabled(true);
+        boost_frame.set_bg_priority(0);
+        boost_frame.set_palette(bn::sprite_items::variable_8x16_font_red.palette_item());
+
         //Setup the progress bar
         bn::vector<bn::sprite_ptr, 4> bar;
         for(int i=0;i<bar.max_size();i++)
@@ -153,6 +173,8 @@ namespace gp
         int start_timer = 60*3;
         int lap_timer = -1;
         int finish_time = 0;
+        int orbs = 0;
+        int orb_timer = -1;
 
         int milliseconds = 0;
         int seconds = 0;
@@ -183,6 +205,11 @@ namespace gp
         while(true)
         {
             time++;
+            if(orb_timer>-1)
+            {
+                orb_timer--;
+            }
+
             if(lap_timer>-1)
             {
                 text_finish_sprites.clear();
@@ -246,7 +273,15 @@ namespace gp
                 {
                     gp::Score score = scores[level];
                     gp::Score new_score = gp::Score(level, milliseconds, seconds, minutes);
-                    if(score.is_empty() || score<new_score) scores[level] = new_score;
+                    if(score.is_empty() || new_score<score) 
+                    {
+                        scores[level] = new_score;
+                        last_time = new_score;
+                    }
+                    else
+                    {
+                        last_time = score;
+                    }
 
                     bn::music::stop();
                     fade_out();
@@ -319,6 +354,14 @@ namespace gp
                 signs_obj.clear();
             }
 
+            //Boosting
+            if(orbs>=gp::MAX_ORBS && bn::keypad::pressed(bn::keypad::key_type::R))
+            {
+                bn::sound_items::boost.play(1);
+                orbs = 0;
+                player_car->accelerate(gp::CAR_BOOSTER_SPEED+6);
+            }
+
             //Check if the car has fallen off
             if((player_car->x()<=-100 || player_car->x()>=100) && !lose)
             {
@@ -362,6 +405,16 @@ namespace gp
                         signs[index] = true;
                         bn::sprite_ptr sign_sprite = bn::sprite_items::spr_warningsign.create_sprite(object._sprite.x(), -64);
                         sign_sprite.set_scale(0.75);
+                        if(type==gp::OBJ_COIN)
+                        {
+                            sign_sprite.set_item(bn::sprite_items::spr_coin);
+                            sign_sprite.set_scale(1);
+                        }
+                        if(type==gp::OBJ_ORB)
+                        {
+                            sign_sprite.set_item(bn::sprite_items::spr_orb);
+                            sign_sprite.set_scale(1);
+                        }
                         if(signs_obj.size()<gp::SEGMENT_OBJ_MAX)
                         {
                             sign_sprite.set_visible(false);
@@ -370,7 +423,7 @@ namespace gp
                     }
                     else
                     {
-                        if(type==gp::OBJ_FINISHLINE || type==gp::OBJ_COIN || type==gp::OBJ_BOOSTERPAD)
+                        if(type==gp::OBJ_FINISHLINE || type==gp::OBJ_BOOSTERPAD)
                         {
                             signs_obj[index]._sprite.set_visible(false);
                         }
@@ -432,6 +485,16 @@ namespace gp
                                 signs_obj.erase(s_it);
                                 break;
                             }
+                            case gp::OBJ_ORB:
+                            {
+                                if(orb_timer==-1)
+                                {
+                                    bn::sound_items::orb.play(1);
+                                    orb_timer = 60;
+                                    orbs++;
+                                }
+                                break;
+                            }
                             case gp::OBJ_MUD: case gp::OBJ_MUD_BOTTOM:
                                 player_car->_mud = true;
                                 break;
@@ -483,6 +546,15 @@ namespace gp
             lap_counter.generate(88, 70, lap_text, lap_counter_sprites);
             for(bn::sprite_ptr spr: lap_counter_sprites){
                 spr.set_blending_enabled(true);
+            }
+
+            //Boost stuff
+            switch(orbs)
+            {
+                case 0: boost_bar.set_horizontal_scale(0.1); break;
+                case 1: boost_bar.set_horizontal_scale(0.33); break;
+                case 2: boost_bar.set_horizontal_scale(0.66); break;
+                case 3: default: boost_bar.set_horizontal_scale(1); break;
             }
 
             bn::core::update();

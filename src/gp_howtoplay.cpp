@@ -50,7 +50,7 @@ namespace gp
 
         //Setup the text
         int page = 0;
-        int pages = 4;
+        int pages = 5;
         bn::string_view text_lines[][8] = {
             {
                 "GBA GRAND PRIX is a Game Boy Advance",
@@ -80,13 +80,20 @@ namespace gp
                 "Move out of the way to avoid getting hit!"
             },
             {
+                "There will also be blue orbs on the track.",
+                "These orbs can give you a burst of speed,",
+                "by filling up the boost bar at the top",
+                "of the screen.",
+                "You can boost when the bar is full."
+            },
+            {
                 "CONTROLS:",
                 "",
-                "A: Accelerate",
-                "B: Brake",
                 "Left: Move left",
                 "Right: Move right",
-                ""
+                "A: Accelerate",
+                "B: Brake",
+                "R: Boost"
             }
         };
         

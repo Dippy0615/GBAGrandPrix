@@ -34,6 +34,9 @@ namespace gp
 
     bool Score::operator<(Score score)
     {
-        return (_millis<score.millis() || _secs<score.secs() || _mins<score.mins());
+        if(_mins<score.mins()) return true;
+        if(_mins<=score.mins() && _secs<score.secs()) return true;
+        if(_mins<=score.mins() && _secs<=score.secs() && _millis<score.millis()) return true;
+        return false;
     }
 }

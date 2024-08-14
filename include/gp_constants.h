@@ -24,6 +24,7 @@ namespace gp
     constexpr int OBJ_MUD_BOTTOM = 5;
     constexpr int OBJ_LEAFPILE = 6;
     constexpr int OBJ_BOOSTERPAD = 7;
+    constexpr int OBJ_ORB = 8;
     constexpr int FINISHLINE_POSITION = 128;
     constexpr int SIGN_WARNING = 0;
     constexpr int BAR_X = 106;
@@ -35,6 +36,7 @@ namespace gp
     constexpr int TECHNO_CAR_ID = 0;
     constexpr int CYBER_TRUCK_ID = 1;
     constexpr int ELECTRO_MOBILE_ID = 2;
+    constexpr int MAX_ORBS = 3;
 }
 
 #endif

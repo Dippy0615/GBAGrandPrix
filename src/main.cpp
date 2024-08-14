@@ -29,6 +29,7 @@ bool gp::lost;
 int gp::new_coins;
 int gp::hits;
 bool gp::play_menu_song;
+gp::Score gp::last_time = gp::Score(0, 0, 0, 0);
 
 namespace{
     struct sram_data{

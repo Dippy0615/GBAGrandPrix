@@ -49,7 +49,7 @@ namespace gp
         text.set_center_alignment();
         bn::vector<bn::sprite_ptr, 24> text_sprites;
         text.generate(0, -74, "POST GAME", text_sprites);
-        bn::string<16> timestr = bn::to_string<16>(scores[level].mins()) + " : " + bn::to_string<16>(scores[level].secs()) + " : " + bn::to_string<16>(scores[level].millis()); 
+        bn::string<16> timestr = bn::to_string<16>(last_time.mins()) + " : " + bn::to_string<16>(last_time.secs()) + " : " + bn::to_string<16>(last_time.millis()); 
         text.generate(0, -48-4, "Time: ", text_sprites);
         text.generate(0, -32-4, timestr, text_sprites);
         text.generate(0, -8-4, "New Coins: ", text_sprites);

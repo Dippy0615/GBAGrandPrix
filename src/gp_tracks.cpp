@@ -6,6 +6,7 @@
 #include "bn_sprite_items_spr_mud_bottom.h"
 #include "bn_sprite_items_spr_leafpile.h"
 #include "bn_sprite_items_spr_boosterpad.h"
+#include "bn_sprite_items_spr_orb.h"
 #include "bn_sprite_ptr.h"
 #include "bn_vector.h"
 #include "bn_log.h"
@@ -49,6 +50,7 @@ namespace gp
                 TrackSegment segment1 = TrackSegment(0, 1000, 0);
                 segment1.add_object(TrackObject(gp::OBJ_BOOSTERPAD, 500, bn::sprite_items::spr_boosterpad.create_sprite(48, 2700)));
                 make_finishline(&segment1);
+                segment1.add_object(TrackObject(gp::OBJ_ORB, 500, bn::sprite_items::spr_orb.create_sprite(-32, 5700)));
                 segments.push_back(segment1);
                 
                 TrackSegment segment2 = TrackSegment(1000, 1000, -30);
@@ -69,6 +71,7 @@ namespace gp
                 make_mud(&segment5, 32, 5550, 9);
                 make_mud(&segment5, 64, 5550, 9);
                 segment5.add_object(TrackObject(gp::OBJ_COIN, 5450, bn::sprite_items::spr_coin.create_sprite(48, 5750)));
+                segment5.add_object(TrackObject(gp::OBJ_ORB, 5700, bn::sprite_items::spr_orb.create_sprite(-32, 5700)));
                 segments.push_back(segment5);
 
                 TrackSegment segment6 = TrackSegment(6000, 1000, 30);
@@ -85,22 +88,21 @@ namespace gp
                 //Jungle
                 TrackSegment segment1 = TrackSegment(0, 1000, 0);
                 make_finishline(&segment1);
+                segment1.add_object(TrackObject(gp::OBJ_ORB, 650, bn::sprite_items::spr_orb.create_sprite(48, 4600)));
                 segment1.add_object(TrackObject(gp::OBJ_LEAFPILE, 700, bn::sprite_items::spr_leafpile.create_sprite(-48, 700)));
                 segment1.add_object(TrackObject(gp::OBJ_LEAFPILE, 700, bn::sprite_items::spr_leafpile.create_sprite(-32, 700)));
                 segments.push_back(segment1);
 
                 TrackSegment segment2 = TrackSegment(1000, 1000, 0);
                 make_mud(&segment2, -44, 1330, 8);
-                segment2.add_object(TrackObject(gp::OBJ_LEAFPILE, 1750, bn::sprite_items::spr_leafpile.create_sprite(48, 1650)));
-                segment2.add_object(TrackObject(gp::OBJ_LEAFPILE, 1750, bn::sprite_items::spr_leafpile.create_sprite(32, 1620)));
                 segments.push_back(segment2);
 
                 TrackSegment segment3 = TrackSegment(2000, 500, 30);
                 segments.push_back(segment3);
 
                 TrackSegment segment4 = TrackSegment(2500, 1000, 0);
-                make_mud(&segment4, 48, 3000, 5);
-                segment4.add_object(TrackObject(gp::OBJ_COIN, 2940, bn::sprite_items::spr_coin.create_sprite(48, 2740)));
+                make_mud(&segment4, 48, 3000, 4);
+                segment4.add_object(TrackObject(gp::OBJ_COIN, 2840, bn::sprite_items::spr_coin.create_sprite(48, 2740)));
                 segments.push_back(segment4);
 
                 TrackSegment segment5 = TrackSegment(3500, 500, 30);
@@ -113,8 +115,7 @@ namespace gp
                 segments.push_back(segment6);
 
                 TrackSegment segment7 = TrackSegment(4500, 1000, 0);
-                segment7.add_object(TrackObject(gp::OBJ_LEAFPILE, 4680, bn::sprite_items::spr_leafpile.create_sprite(-8, 4680)));
-                segment7.add_object(TrackObject(gp::OBJ_LEAFPILE, 4680, bn::sprite_items::spr_leafpile.create_sprite(8, 4680)));
+                segment7.add_object(TrackObject(gp::OBJ_ROADBLOCK, 4950, bn::sprite_items::spr_roadblock.create_sprite(-32, 5250)));
                 segment7.add_object(TrackObject(gp::OBJ_ROADBLOCK, 5250, bn::sprite_items::spr_roadblock.create_sprite(32, 5250)));
                 segments.push_back(segment7);
 
@@ -123,7 +124,8 @@ namespace gp
 
                 TrackSegment segment9 = TrackSegment(6000, 800, 0);
                 segment9.add_object(TrackObject(gp::OBJ_ROADBLOCK, 6300, bn::sprite_items::spr_roadblock.create_sprite(48, 6300)));
-                segment9.add_object(TrackObject(gp::OBJ_COIN, 6430, bn::sprite_items::spr_coin.create_sprite(48, 6430)));
+                segment9.add_object(TrackObject(gp::OBJ_COIN, 6530, bn::sprite_items::spr_coin.create_sprite(48, 6430)));
+                segment9.add_object(TrackObject(gp::OBJ_ORB, 6600, bn::sprite_items::spr_orb.create_sprite(-48, 4600)));
                 segments.push_back(segment9);
                 return segments;
             }

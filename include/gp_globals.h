@@ -16,6 +16,7 @@ namespace gp
     extern int new_coins;
     extern int hits;
     extern bool play_menu_song;
+    extern gp::Score last_time;
 }
 
 #endif
