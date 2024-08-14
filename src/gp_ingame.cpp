@@ -33,6 +33,8 @@
 #include "bn_sprite_items_variable_8x16_font_red.h"
 #include "bn_sound_items.h"
 #include "bn_sound_actions.h"
+#include "bn_music_items.h"
+#include "bn_music_actions.h"
 
 #include "common_variable_8x16_sprite_font.h"
 
@@ -157,6 +159,15 @@ namespace gp
         int minutes = 0;
         bn::fixed distance = 0;
 
+        //Play the music
+        switch(level)
+        {
+            case 0: default:
+                bn::music_items::ground.play(1);
+                break;
+        }
+        bn::music::set_volume(0.7);
+
         //fade in
         bn::blending::set_fade_alpha(1);
         bn::blending::set_fade_color(bn::blending::fade_color_type::WHITE);
@@ -237,6 +248,7 @@ namespace gp
                     gp::Score new_score = gp::Score(level, milliseconds, seconds, minutes);
                     if(score.is_empty() || score<new_score) scores[level] = new_score;
 
+                    bn::music::stop();
                     fade_out();
                     return gp::Scene::Postgame;
                 }
@@ -260,6 +272,7 @@ namespace gp
 
                 if(finish_time>200)
                 {
+                    bn::music::stop();
                     fade_out();
                     return gp::Scene::TrackSelect;
                 }

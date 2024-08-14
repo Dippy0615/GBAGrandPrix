@@ -56,7 +56,7 @@ namespace gp
                 "GBA GRAND PRIX is a Game Boy Advance",
                 "remake of NOKIA GRAND PRIX.",
                 "",
-                "In GBA GRAND PRIX, you will race on",
+                "In GBA GRAND PRIX, you will drive on",
                 "4 tracks, with the goal of completing them",
                 "as quickly as possible.",
                 "Records will be saved for you to",

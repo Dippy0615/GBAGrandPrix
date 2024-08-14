@@ -47,6 +47,7 @@ namespace gp
             {
                 //Ground
                 TrackSegment segment1 = TrackSegment(0, 1000, 0);
+                segment1.add_object(TrackObject(gp::OBJ_BOOSTERPAD, 500, bn::sprite_items::spr_boosterpad.create_sprite(48, 2700)));
                 make_finishline(&segment1);
                 segments.push_back(segment1);
                 
@@ -55,6 +56,7 @@ namespace gp
 
                 TrackSegment segment3 = TrackSegment(2000, 2000, 0);
                 segment3.add_object(TrackObject(gp::OBJ_MUDSLICK, 2400, bn::sprite_items::spr_mudslick.create_sprite(0, 2400)));
+                segment3.add_object(TrackObject(gp::OBJ_ROADBLOCK, 2900, bn::sprite_items::spr_roadblock.create_sprite(48, 2900)));
                 segment3.add_object(TrackObject(gp::OBJ_BOOSTERPAD, 3300, bn::sprite_items::spr_boosterpad.create_sprite(48, 2700)));
                 segment3.add_object(TrackObject(gp::OBJ_COIN, 3100, bn::sprite_items::spr_coin.create_sprite(-48, 2950)));
                 segment3.add_object(TrackObject(gp::OBJ_ROADBLOCK, 3350, bn::sprite_items::spr_roadblock.create_sprite(-48, 3100)));
@@ -73,6 +75,7 @@ namespace gp
                 segments.push_back(segment6);
 
                 TrackSegment segment7 = TrackSegment(7000, 1000, 0);
+                segment7.add_object(TrackObject(gp::OBJ_BOOSTERPAD, 7550, bn::sprite_items::spr_boosterpad.create_sprite(-32, 2700)));
                 segment7.add_object(TrackObject(gp::OBJ_ROADBLOCK, 7600, bn::sprite_items::spr_roadblock.create_sprite(32, 7600)));
                 segments.push_back(segment7);
                 return segments;
@@ -110,8 +113,9 @@ namespace gp
                 segments.push_back(segment6);
 
                 TrackSegment segment7 = TrackSegment(4500, 1000, 0);
+                segment7.add_object(TrackObject(gp::OBJ_LEAFPILE, 4680, bn::sprite_items::spr_leafpile.create_sprite(-8, 4680)));
+                segment7.add_object(TrackObject(gp::OBJ_LEAFPILE, 4680, bn::sprite_items::spr_leafpile.create_sprite(8, 4680)));
                 segment7.add_object(TrackObject(gp::OBJ_ROADBLOCK, 5250, bn::sprite_items::spr_roadblock.create_sprite(32, 5250)));
-                segment7.add_object(TrackObject(gp::OBJ_ROADBLOCK, 450, bn::sprite_items::spr_roadblock.create_sprite(-32, 5250)));
                 segments.push_back(segment7);
 
                 TrackSegment segment8 = TrackSegment(5500, 550, -30);

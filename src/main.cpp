@@ -93,6 +93,7 @@ int main()
             if(gp::play_menu_song) 
             {
                 bn::music_items::menu.play(1);
+                bn::music::set_volume(1);
                 gp::play_menu_song = false;
             }
             gp::Menu menu = gp::Menu();
