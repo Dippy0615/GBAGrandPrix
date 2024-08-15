@@ -191,11 +191,12 @@ namespace gp
             case 1:
                 bn::music_items::jungle.play(1);
                 break;
-            case 2:
+            case 2: case 3:
                 bn::music_items::sky.play(1);
                 break;
         }
         bn::music::set_volume(0.7);
+        if(level==2||level==3) bn::music::set_volume(0.8);
 
         //fade in
         bn::blending::set_fade_alpha(1);
@@ -283,12 +284,8 @@ namespace gp
                     if(score.is_empty() || new_score<score) 
                     {
                         scores[level] = new_score;
-                        last_time = new_score;
                     }
-                    else
-                    {
-                        last_time = score;
-                    }
+                    last_time = new_score;
 
                     bn::music::stop();
                     fade_out();

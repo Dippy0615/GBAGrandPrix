@@ -178,6 +178,9 @@ int main()
         }
         if(scene == gp::Scene::Postgame)
         {
+            bn::music_items::menu.play(1);
+            bn::music::set_volume(1);
+            gp::play_menu_song = false;
             gp::Postgame postgame = gp::Postgame();
             scene = postgame.execute(current_track);
             gp::new_coins = 0;
