@@ -527,7 +527,7 @@ namespace gp
             }
 
             player.update();
-            if(!finish) distance += (player_car->speed() / 5);
+            if(!finish) distance += (player_car->speed() / 6);
             if(road_angle<-5) player_car->set_x(player_car->x() + 0.75);
             if(road_angle>5) player_car->set_x(player_car->x() - 0.75);
             
