@@ -134,6 +134,7 @@ namespace gp
             {
                 //Sky
                 TrackSegment segment1 = TrackSegment(0, 1000, 0);
+                segment1.add_object(TrackObject(gp::OBJ_ORB, 500, bn::sprite_items::spr_orb.create_sprite(-48, 4600)));
                 make_finishline(&segment1);
                 
                 segments.push_back(segment1);
@@ -142,16 +143,19 @@ namespace gp
                 segments.push_back(segment2);
 
                 TrackSegment segment3 = TrackSegment(2000, 2000, 0);
+                segment3.add_object(TrackObject(gp::OBJ_BOOSTERPAD, 2200, bn::sprite_items::spr_boosterpad.create_sprite(-48, 2200)));
                 segment3.add_object(TrackObject(gp::OBJ_ROADBLOCK, 2500, bn::sprite_items::spr_roadblock.create_sprite(-48, 2200)));
                 segment3.add_object(TrackObject(gp::OBJ_COIN, 3150, bn::sprite_items::spr_coin.create_sprite(48, 2850)));
                 make_mud(&segment3, 48, 3300, 8);
                 make_mud(&segment3, 64, 3300, 8);
+                segment3.add_object(TrackObject(gp::OBJ_ROADBLOCK, 3720, bn::sprite_items::spr_roadblock.create_sprite(-48, 2200)));
                 segments.push_back(segment3);
 
                 TrackSegment segment4 = TrackSegment(4000, 1000, -30);
                 segments.push_back(segment4);
 
                 TrackSegment segment5 = TrackSegment(5000, 1000, 0);
+                segment1.add_object(TrackObject(gp::OBJ_ORB, 5200, bn::sprite_items::spr_orb.create_sprite(0, 4600)));
                 segment5.add_object(TrackObject(gp::OBJ_COIN, 5450, bn::sprite_items::spr_coin.create_sprite(48, 5450)));
                 segment5.add_object(TrackObject(gp::OBJ_ROADBLOCK, 5600, bn::sprite_items::spr_roadblock.create_sprite(48, 5600)));
                 segment5.add_object(TrackObject(gp::OBJ_ROADBLOCK, 5850, bn::sprite_items::spr_roadblock.create_sprite(-48, 5850)));

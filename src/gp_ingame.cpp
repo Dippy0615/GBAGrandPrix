@@ -191,6 +191,9 @@ namespace gp
             case 1:
                 bn::music_items::jungle.play(1);
                 break;
+            case 2:
+                bn::music_items::sky.play(1);
+                break;
         }
         bn::music::set_volume(0.7);
 
