@@ -115,6 +115,7 @@ namespace gp
                 segments.push_back(segment6);
 
                 TrackSegment segment7 = TrackSegment(4500, 1000, 0);
+                segment7.add_object(TrackObject(gp::OBJ_BOOSTERPAD, 4750, bn::sprite_items::spr_boosterpad.create_sprite(32, 2700)));
                 segment7.add_object(TrackObject(gp::OBJ_ROADBLOCK, 4950, bn::sprite_items::spr_roadblock.create_sprite(-32, 5250)));
                 segment7.add_object(TrackObject(gp::OBJ_ROADBLOCK, 5250, bn::sprite_items::spr_roadblock.create_sprite(32, 5250)));
                 segments.push_back(segment7);

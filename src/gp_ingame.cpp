@@ -23,6 +23,7 @@
 #include "bn_sprite_items_spr_plr_icon.h"
 #include "bn_sprite_items_spr_boost_frame.h"
 #include "bn_sprite_items_spr_boost_bar.h"
+#include "bn_sprite_items_spr_boosterpad.h"
 #include "bn_sprite_animate_actions.h"
 #include "bn_array.h"
 #include "bn_log.h"
@@ -186,6 +187,9 @@ namespace gp
         {
             case 0: default:
                 bn::music_items::ground.play(1);
+                break;
+            case 1:
+                bn::music_items::jungle.play(1);
                 break;
         }
         bn::music::set_volume(0.7);
@@ -414,6 +418,11 @@ namespace gp
                         {
                             sign_sprite.set_item(bn::sprite_items::spr_orb);
                             sign_sprite.set_scale(1);
+                        }
+                        if(type==gp::OBJ_BOOSTERPAD)
+                        {
+                            sign_sprite.set_item(bn::sprite_items::spr_boosterpad);
+                            //sign_sprite.set_scale(1);
                         }
                         if(signs_obj.size()<gp::SEGMENT_OBJ_MAX)
                         {
