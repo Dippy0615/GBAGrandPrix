@@ -33,11 +33,14 @@ gp::Score gp::last_time = gp::Score(0, 0, 0, 0);
 
 namespace{
     struct sram_data{
+            bn::array<char, 5> header;
             bn::array<uint8_t, 3*4> saved_times;
             uint8_t saved_coins;
             bn::array<bool, 3> saved_cars;
         };
 }
+
+bn::array<char, 5> header_check = {'G','B','A','G','P'};
 
 int main()
 {
@@ -65,16 +68,19 @@ int main()
 
     sram_data saved_data;
     bn::sram::read(saved_data);
-    for(int i=0;i<4;i++)
+    if(saved_data.header==header_check)
     {
-        gp::scores[i] = gp::Score(i, saved_data.saved_times[i*3], saved_data.saved_times[i*3+1], saved_data.saved_times[i*3+2]);
+        for(int i=0;i<4;i++)
+        {
+            gp::scores[i] = gp::Score(i, saved_data.saved_times[i*3], saved_data.saved_times[i*3+1], saved_data.saved_times[i*3+2]);
+        }
+        gp::coins = saved_data.saved_coins;
+        for(int i=0;i<3;i++)
+        {
+            gp::cars[i] = saved_data.saved_cars[i];
+        }
+        gp::cars[0] = true;
     }
-    gp::coins = saved_data.saved_coins;
-    for(int i=0;i<3;i++)
-    {
-        gp::cars[i] = saved_data.saved_cars[i];
-    }
-    gp::cars[0] = true;
 
     while(true)
     {
@@ -124,6 +130,7 @@ int main()
             gp::Shop shop = gp::Shop();
             scene = shop.execute();
             sram_data data;
+            data.header = {'G','B','A','G','P'};
             for(int i=0;i<4;i++)
             {
                 data.saved_times[i*3] = (uint8_t)gp::scores[i].millis();
