@@ -12,7 +12,6 @@
 #include "bn_sprite_items_spr_car.h"
 #include "bn_sprite_items_spr_car_pink.h"
 #include "bn_sprite_items_spr_truck.h"
-#include "bn_sprite_items_spr_kart.h"
 #include "bn_sprite_items_spr_mudslick.h"
 #include "bn_sprite_items_spr_finishline.h"
 #include "bn_sprite_items_spr_roadblock.h"

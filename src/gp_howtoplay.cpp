@@ -82,7 +82,7 @@ namespace gp
             {
                 "There will also be blue orbs on the track.",
                 "These orbs can give you a burst of speed,",
-                "by filling up the boost bar at the top",
+                "by filling up the boost bar at the bottom",
                 "of the screen.",
                 "You can boost when the bar is full."
             },
